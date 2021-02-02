@@ -17,6 +17,7 @@ function CustomDrawerContent({
 }) {
   const insets = useSafeArea();
   const screens = [
+    "Trang Chủ",
     "Home",
     "Woman",
     "Man",

@@ -1,5 +1,6 @@
 const Onboarding = 'https://images.unsplash.com/photo-1505995433366-e12047f3f144?fit=crop&w=840&q=80';
 const Background = require('../assets/images/background.png');
+const Background1 = require('../assets/images/background1.png');
 const Logo = require('../assets/images/logo.png');
 const Pro = 'https://images.unsplash.com/photo-1485796826113-174aa68fd81b?fit=crop&w=840&q=80';
 const Products = {
@@ -21,6 +22,7 @@ const Viewed = [
 export default {
   Onboarding,
   Background,
+  Background1,
   Logo,
   Pro,
   Products,

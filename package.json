@@ -29,7 +29,6 @@
     "react": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
     "react-native-gesture-handler": "~1.7.0",
-    "react-native-linear-gradient": "^2.5.6",
     "react-native-modal-dropdown": "git+https://github.com/siemiatj/react-native-modal-dropdown.git",
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.4",

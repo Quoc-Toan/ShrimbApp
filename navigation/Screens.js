@@ -11,6 +11,7 @@ import OnboardingScreen from '../screens/Onboarding';
 import ProfileScreen from '../screens/Profile';
 import ProScreen from '../screens/Pro';
 import SettingsScreen from '../screens/Settings';
+import Interface003 from "../screens/Interface003";
 
 import CustomDrawerContent from './Menu';
 import { Icon, Header } from '../components';
@@ -28,6 +29,29 @@ const profile = {
   plan: "Pro",
   rating: 4.8
 };
+
+const Interface003Stack = (props) => {
+  return (
+    <Stack.Navigator initialRouteName="Interface003" mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Trang Chủ"
+        component={Interface003}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              white
+              transparent
+              title="Trang Chủ"
+              scene={scene}
+              navigation={navigation}
+            />
+          ),
+          headerTransparent: true
+        }}
+      />
+    </Stack.Navigator>
+  )
+}
 
 function ProfileStack(props) {
   return (
@@ -91,12 +115,12 @@ function ComponentsStack(props) {
 function HomeStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
-      <Stack.Screen 
+      <Stack.Screen
         name="Home"
         component={HomeScreen}
         options={{
           header: ({ navigation, scene }) => (
-            <Header 
+            <Header
               search
               tabs
               title="Home"
@@ -106,7 +130,7 @@ function HomeStack(props) {
           )
         }}
       />
-      <Stack.Screen 
+      <Stack.Screen
         name="Pro"
         component={ProScreen}
         options={{
@@ -150,8 +174,22 @@ function AppStack(props) {
           fontWeight: "normal"
         }
       }}
-      initialRouteName="Home"
+      initialRouteName="Trang Chủ"
     >
+      <Drawer.Screen
+        name="Trang Chủ"
+        component={Interface003Stack}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <Icon
+              size={16}
+              name="shop"
+              family="GalioExtra"
+              color={focused ? "white" : materialTheme.COLORS.MUTED}
+            />
+          )
+        }}
+      />
       <Drawer.Screen
         name="Home"
         component={HomeStack}
@@ -369,7 +407,7 @@ const HomeStack = createStackNavigator({
   },
 },
 {
-  cardStyle: { 
+  cardStyle: {
     backgroundColor: '#EEEEEE', //this is the backgroundColor for the app
   },
   transitionConfig,
