@@ -1,5 +1,6 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, StatusBar, Dimensions, ScrollView, TouchableWithoutFeedback, Image} from 'react-native';
+import { ImageBackground, StyleSheet, StatusBar, Dimensions, ScrollView, TouchableWithoutFeedback, Image } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import { Block, Button, Text, View, theme } from 'galio-framework';
 
 const { height, width } = Dimensions.get('screen');
@@ -11,6 +12,13 @@ import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 export default class Onboarding extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      imgURL: null
+    }
+  }
+
   render() {
     const { navigation } = this.props;
 
@@ -22,21 +30,24 @@ export default class Onboarding extends React.Component {
             source={Images.Background1}
             style={{ width: width, height: height, zIndex: 1 }}
           />
-          <ImageBackground
-            source={Images.White}
-            style={styles.logo}
-          />
+          {this.state.imgURL ?
+            <ImageBackground
+              source={{uri: this.state.imgURL}}
+              style={styles.logo}
+            /> :
+            <ImageBackground
+              source={Images.White}
+              style={styles.logo}
+            />}
         </Block>
         <Block style={styles.card}>
-          <TouchableWithoutFeedback >
+          <TouchableWithoutFeedback onPress={() => Console.log("click")}>
             <Block style={styles.items} >
               <Image source={Images.Camera} style={styles.icon} />
             </Block>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback
-          //  onPress={this.takeImage.bind(this)}
-          >
-            <Block style={styles.items}>
+          <TouchableWithoutFeedback onPress={() => Console.log("click")}>
+           <Block style={styles.items}>
               <Image source={Images.Picture} style={styles.icon} />
             </Block>
           </TouchableWithoutFeedback>
@@ -48,8 +59,8 @@ export default class Onboarding extends React.Component {
                 shadowless
                 style={styles.button}
                 textStyle={styles.optionsText}
-                // onPress={() => navigation.navigate('App')}
-                >
+              // onPress={() => navigation.navigate('App')}
+              >
                 {vn.data.interface003.Label.detect}
               </Button>
             </Block>
@@ -57,14 +68,13 @@ export default class Onboarding extends React.Component {
         </Block>
       </Block>
     );
-
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "black",
-    
+
   },
   logo: {
     width: 280,
@@ -72,7 +82,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     position: "absolute",
     alignSelf: 'center',
-    top: "10%",
+    top: "20%",
 
   },
   padded: {
