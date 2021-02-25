@@ -3,6 +3,11 @@ const data = {
         Label: {
             button_start: "Bắt Đầu"
         }
+    },
+    interface003: {
+        Label:{
+            detect: "Nhận Diện"
+        }
     }
 }
 export default {
