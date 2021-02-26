@@ -16,7 +16,7 @@ export default class Interface007 extends React.Component {
     }
 
     render() {
-        let {lng} = this.state
+        let { lng } = this.state
         return (
             <Modal
                 animationType="slide"
@@ -43,14 +43,14 @@ export default class Interface007 extends React.Component {
                                     style={styles.but}
                                     onPress={() => this.props.sendMess()}>
                                     {lng.Interface007.Label.send}
-                    </Button>
+                                </Button>
                             </Block>
                             <Block flex left>
                                 <Button
                                     style={styles.but}
                                     onPress={() => this.props.setModalVisible()}>
                                     {lng.Interface007.Label.cancel}
-                    </Button>
+                                </Button>
                             </Block>
                         </Block>
                     </View>
@@ -62,40 +62,40 @@ export default class Interface007 extends React.Component {
 
 const styles = StyleSheet.create({
     button: {
-      width: width - theme.SIZES.BASE * 4,
-      height: theme.SIZES.BASE * 3,
-      shadowRadius: 0,
-      shadowOpacity: 0,
+        width: width - theme.SIZES.BASE * 4,
+        height: theme.SIZES.BASE * 3,
+        shadowRadius: 0,
+        shadowOpacity: 0,
     },
     modalText: {
-      textAlign: 'center',
-      fontSize: 22,
-      fontWeight: 'bold',
-      padding: 5,
+        textAlign: 'center',
+        fontSize: 22,
+        fontWeight: 'bold',
+        padding: 5,
     },
     modalView: {
-      justifyContent: 'center',
-      width: width - theme.SIZES.BASE * 8,
+        justifyContent: 'center',
+        width: width - theme.SIZES.BASE * 8,
     },
     centeredView: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: theme.SIZES.BASE * 17,
-      marginBottom: theme.SIZES.BASE * 17,
-      marginLeft: width - theme.SIZES.BASE * 22,
-      marginRight: width - theme.SIZES.BASE * 22,
-      backgroundColor: "white",
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: theme.SIZES.BASE * 17,
+        marginBottom: theme.SIZES.BASE * 17,
+        marginLeft: width - theme.SIZES.BASE * 22,
+        marginRight: width - theme.SIZES.BASE * 22,
+        backgroundColor: "white",
     },
     textfield: {
-      height: 50,
-      borderColor: 'gray',
-      borderWidth: 1,
+        height: 50,
+        borderColor: 'gray',
+        borderWidth: 1,
     },
     but: {
-      width: width - theme.SIZES.BASE * 16,
-      height: theme.SIZES.BASE * 2.5,
-      backgroundColor: '#2196F3',
-      shadowOpacity: 0,
+        width: width - theme.SIZES.BASE * 16,
+        height: theme.SIZES.BASE * 2.5,
+        backgroundColor: '#2196F3',
+        shadowOpacity: 0,
     }
-  });
+});
