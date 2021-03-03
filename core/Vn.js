@@ -13,5 +13,14 @@ export default {
             "send": "GỬI",
             "cancel": "HỦY",
         }
+    },
+
+    "Interface007": {
+        "Label": {
+            "recomment_tittle": "Nhập ý kiến của bạn",
+            "recomment_placeholder": "Ví dụ...",
+            "send": "GỬI",
+            "cancel": "HỦY",
+        }
     }
 }
