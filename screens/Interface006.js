@@ -23,6 +23,8 @@ export default class Onboarding extends React.Component {
       sickness_name: null,
       sickness_detail: null,
       sickness_treatment: null,
+      Message:"",
+      Email: "",
     }
 
     this.setModalVisible = this.setModalVisible.bind(this)
@@ -34,6 +36,18 @@ export default class Onboarding extends React.Component {
     sickness_detail: "Toàn",
     sickness_treatment: "Toàn",
   }
+
+  emailOnChange(Email) {
+    this.setState({
+      ...this.state,
+      Email: Email
+    })
+  }
+
+  sendImage() {
+    console.log(this.state)
+  }
+
 
   componentDidMount() {
     this.convertSicknessInfo(this.sicknessInfo)
@@ -54,6 +68,17 @@ export default class Onboarding extends React.Component {
       ...this.state,
       modalVisible: !this.state.modalVisible
     })
+  }
+
+  messageOnChange(Message) {
+    this.setState({
+      ...this.state,
+      Message: Message
+    })
+  }
+
+  sendMess() {
+    console.log(this.state)
   }
 
   renderCards = () => {
@@ -131,6 +156,8 @@ export default class Onboarding extends React.Component {
         <Interface007
           modalVisible={this.state.modalVisible}
           setModalVisible={this.setModalVisible}
+          messageOnChange={this.messageOnChange.bind(this)}
+          sendMess={this.sendMess.bind(this)}
         />
       </Block>
     );

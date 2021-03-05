@@ -15,9 +15,9 @@ export default class Onboarding extends React.Component {
     super(props)
 
     this.state = {
-        lng: Vn
+      lng: Vn
     }
-}
+  }
   render() {
     const { navigation } = this.props;
     let { lng } = this.state
@@ -44,7 +44,7 @@ export default class Onboarding extends React.Component {
                 style={styles.button}
                 textStyle={styles.optionsText}
                 onPress={() => navigation.navigate('App')}>
-                 {lng.Onboaring.Label.button_start}
+                 {lng.Onboaring.Lable.button_start}
               </Button>
             </Block>
           </Block>

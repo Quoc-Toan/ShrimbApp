@@ -1,7 +1,7 @@
 export default {
     "Onboaring": {
-        "lable": {
-            "button_start": "Bắt đầu"
+        "Lable": {
+            "button_start": "Bắt đầu",
         }
     },
 
