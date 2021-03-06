@@ -7,11 +7,20 @@ const { height, width } = Dimensions.get('screen');
 
 import materialTheme from '../constants/Theme';
 import Images from '../constants/Images';
-import vn from "../constants/vn";
+import { Vn } from "../core"
 
 export default class Onboarding extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      lng: Vn
+    }
+  }
   render() {
     const { navigation } = this.props;
+    let { lng } = this.state
+
 
     return (
       <Block flex style={styles.container}>
@@ -34,7 +43,7 @@ export default class Onboarding extends React.Component {
                 style={styles.button}
                 textStyle={styles.optionsText}
                 onPress={() => navigation.navigate('App')}>
-                {vn.data.interface002.Label.button_start}
+                 {lng.Onboaring.Lable.button_start}
               </Button>
             </Block>
           </Block>
