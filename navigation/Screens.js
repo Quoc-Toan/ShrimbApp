@@ -15,6 +15,8 @@ import SettingsScreen from '../screens/Settings';
 import CustomDrawerContent from './Menu';
 import { Icon, Header } from '../components';
 import { Images, materialTheme } from "../constants/";
+import { Camera } from 'expo-camera';
+import Interface004 from "../screens/Interface004";
 
 const { width } = Dimensions.get("screen");
 
@@ -150,11 +152,11 @@ function AppStack(props) {
           fontWeight: "normal"
         }
       }}
-      initialRouteName="Home"
+      initialRouteName="Camera"
     >
       <Drawer.Screen
-        name="Home"
-        component={HomeStack}
+        name="Camera"
+        component={Interface004Stack}
         options={{
           drawerIcon: ({ focused }) => (
             <Icon
@@ -297,6 +299,45 @@ function AppStack(props) {
       />
     </Drawer.Navigator>
   );
+}
+
+const Interface004Stack = (props) => {
+  return (
+    <Stack.Navigator initialRouteName="Interface004" mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Camera"
+        component={Interface004}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              white
+              transparent
+              title="Camera"
+              scene={scene}
+              navigation={navigation}
+            />
+          ),
+          headerTransparent: true
+        }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              white
+              transparent
+              title="Profile"
+              scene={scene}
+              navigation={navigation}
+            />
+          ),
+          headerTransparent: true
+        }}
+      />
+    </Stack.Navigator>
+  )
 }
 
 export default function OnboardingStack(props) {
