@@ -7,7 +7,6 @@ const { height, width } = Dimensions.get('screen');
 
 import materialTheme from '../constants/Theme';
 import Images from '../constants/Images';
-import vn from "../constants/vn";
 import { Vn } from "../core"
 
 export default class Onboarding extends React.Component {
