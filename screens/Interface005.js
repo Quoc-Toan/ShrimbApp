@@ -1,11 +1,9 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, StatusBar, Dimensions, Modal, View } from 'react-native';
+import { StyleSheet, Dimensions, Modal, View } from 'react-native';
 import { Block, Button, Text, theme, Input } from 'galio-framework';
 
 const { height, width } = Dimensions.get('screen');
 
-import materialTheme from '../constants/Theme';
-import Images from '../constants/Images';
 import { Vn } from "../core"
 
 export default class Interface005 extends React.Component {

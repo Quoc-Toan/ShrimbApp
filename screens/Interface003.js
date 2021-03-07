@@ -1,13 +1,14 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, StatusBar, Dimensions, ScrollView, TouchableWithoutFeedback, Image } from 'react-native';
+import { ImageBackground, StyleSheet, StatusBar, Dimensions, ScrollView, TouchableWithoutFeedback, Image, Modal, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { Block, Button, Text, View, theme } from 'galio-framework';
+import { Block, Button, Text, theme } from 'galio-framework';
 
 const { height, width } = Dimensions.get('screen');
 
 import materialTheme from '../constants/Theme';
 import Images from '../constants/Images';
-import vn from "../constants/vn";
+import { Vn } from "../core"
+import Interface005 from "./Interface005";
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
 
@@ -15,57 +16,153 @@ export default class Onboarding extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      imgURL: null
+      ImageSrc: "",
+      Email: "",
+      modalVisible: false,
+      lng: Vn
     }
+
+    this.pickImage = this.pickImage.bind(this)
+    this.setModalVisible = this.setModalVisible.bind(this)
+  }
+
+  emailOnChange(Email) {
+    this.setState({
+      ...this.state,
+      Email: Email
+    })
+  }
+
+  sendImage() {
+    sicknessInfo = {
+      ImageSrc: this.state.ImageSrc,
+      sickness_name: "Toàn",
+      sickness_detail: "Toàn",
+      sickness_treatment: "Toàn",
+    }
+
+  }
+
+  pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    this.setState({
+      ...this.state,
+      ImageSrc: result.uri
+    })
+  }
+
+  setModalVisible = () => {
+    this.setState({
+      ...this.state,
+      modalVisible: !this.state.modalVisible
+    })
+  }
+
+  renderCards = () => {
+    return (
+      <Block flex style={styles.group}>
+        <Block flex>
+          <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
+            {
+              (this.state.ImageSrc != "") ?
+                <ImageBackground
+                  source={{ uri: this.state.ImageSrc }}
+                  style={styles.logo} /> :
+                <ImageBackground
+                  source={Images.White}
+                  style={styles.logo} />
+            }
+          </Block>
+        </Block>
+      </Block>
+
+    )
+  }
+
+  renderButtonDetect = lng => {
+    return (
+      <Block flex style={styles.group}>
+        <Block >
+          <Block center>
+            {
+              (this.state.ImageSrc != "") ?
+                <Button
+                  shadowless
+                  style={styles.button}
+                  textStyle={styles.optionsText}
+                  onPress={this.setModalVisible}>
+                  {lng.Interface003.Label.detect}
+                </Button> :
+                <Block></Block>
+            }
+          </Block>
+        </Block>
+      </Block>
+    )
+  }
+
+  renderButton = lng => {
+    return (
+      <Block style={styles.card}>
+        <TouchableWithoutFeedback onPress={() => console.log("click")}>
+          <Block>
+            <Image source={Images.Camera} style={styles.icon} />
+          </Block>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={this.pickImage}>
+          <Block>
+            <Image source={Images.Picture} style={styles.icon} />
+          </Block>
+        </TouchableWithoutFeedback>
+      </Block>
+    )
   }
 
   render() {
+    let { lng } = this.state
     const { navigation } = this.props;
 
     return (
       <Block flex style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Block flex center>
-          <ImageBackground
-            source={Images.Background1}
-            style={{ width: width, height: height, zIndex: 1 }}
-          />
-          {this.state.imgURL ?
-            <ImageBackground
-              source={{uri: this.state.imgURL}}
-              style={styles.logo}
-            /> :
-            <ImageBackground
-              source={Images.White}
-              style={styles.logo}
-            />}
-        </Block>
-        <Block style={styles.card}>
-          <TouchableWithoutFeedback onPress={() => Console.log("click")}>
-            <Block style={styles.items} >
-              <Image source={Images.Camera} style={styles.icon} />
-            </Block>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => Console.log("click")}>
-           <Block style={styles.items}>
-              <Image source={Images.Picture} style={styles.icon} />
-            </Block>
-          </TouchableWithoutFeedback>
-        </Block>
-        <Block flex space="between" style={styles.padded}>
-          <Block flex space="around" style={{ zIndex: 2 }}>
-            <Block center>
-              <Button
-                shadowless
-                style={styles.button}
-                textStyle={styles.optionsText}
-              // onPress={() => navigation.navigate('App')}
-              >
-                {vn.data.interface003.Label.detect}
-              </Button>
-            </Block>
+        <ImageBackground
+          source={Images.Background}
+          style={{ width: width, height: height, zIndex: 1 }}
+        >
+          <Block flex center>
+            {this.renderCards(lng)}
           </Block>
-        </Block>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ height: height / 4 }}>
+            <Block flex space="around" style={styles.padded}>
+              {this.renderButton(lng)}
+
+              {this.renderButtonDetect(lng)}
+            </Block>
+          </ScrollView>
+        </ImageBackground>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.modalVisible}
+        >
+          <View style={styles.overlay}>
+
+          </View>
+        </Modal>
+        <Interface005
+            modalVisible={this.state.modalVisible}
+            setModalVisible={this.setModalVisible.bind(this)}
+            emailOnChange={this.emailOnChange.bind(this)}
+            sendImage={this.sendImage.bind(this)}
+          />
       </Block>
     );
   }
@@ -91,9 +188,9 @@ const styles = StyleSheet.create({
     bottom: theme.SIZES.BASE,
   },
   button: {
-    width: 250,
+    width: width - theme.SIZES.BASE * 7,
     backgroundColor: 'white',
-    height: 75,
+    height: height - theme.SIZES.BASE * 50,
     shadowColor: 'rgba(0, 0, 0, 0)',
     elevation: 10,
     shadowRadius: 10,
@@ -126,4 +223,26 @@ const styles = StyleSheet.create({
     marginBottom: '10%',
     marginHorizontal: '5%'
   },
+  logo: {
+    width: 280,
+    height: 280,
+    zIndex: 1,
+    position: "absolute",
+    alignSelf: 'center',
+    top: "10%",
+  },
+  title: {
+    paddingVertical: theme.SIZES.BASE,
+    paddingHorizontal: theme.SIZES.BASE * 2,
+  },
+  group: {
+    paddingTop: theme.SIZES.BASE,
+    paddingBottom: theme.SIZES.BASE * 2,
+  },
+  overlay: {
+    height: height,
+    width: width,
+    backgroundColor: "black",
+    opacity:0.5,
+  }
 });
