@@ -3,8 +3,6 @@ import { Easing, Animated, Dimensions } from 'react-native';
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import { Block, Text, theme } from "galio-framework";
-
 import ComponentsScreen from '../screens/Components';
 import HomeScreen from '../screens/Home';
 import OnboardingScreen from '../screens/Onboarding';
@@ -13,10 +11,12 @@ import ProScreen from '../screens/Pro';
 import SettingsScreen from '../screens/Settings';
 import Interface003 from "../screens/Interface003";
 import Interface006 from "../screens/Interface006";
+import Interface004 from "../screens/Interface004";
 
 import CustomDrawerContent from './Menu';
 import { Icon, Header } from '../components';
 import { Images, materialTheme } from "../constants/";
+import { Camera } from 'expo-camera';
 
 const { width } = Dimensions.get("screen");
 
@@ -43,6 +43,22 @@ const DetectStack = (props) => {
               white
               transparent
               title="Nhận diện"
+              scene={scene}
+              navigation={navigation}
+            />
+          ),
+          headerTransparent: true
+        }}
+      />
+      <Stack.Screen
+        name="Camera"
+        component={Interface004}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              white
+              transparent
+              title="Camera"
               scene={scene}
               navigation={navigation}
             />
