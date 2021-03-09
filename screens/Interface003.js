@@ -11,6 +11,7 @@ import { Vn } from "../core"
 import Interface005 from "./Interface005";
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
+const thumbMeasure = (width - 48 - 32) / 3;
 
 export default class Onboarding extends React.Component {
   constructor(props) {
@@ -19,11 +20,27 @@ export default class Onboarding extends React.Component {
       ImageSrc: "",
       Email: "",
       modalVisible: false,
-      lng: Vn
+      lng: Vn,
+      useCamera: false,
+      photoGalaryModal: false,
     }
 
     this.pickImage = this.pickImage.bind(this)
     this.setModalVisible = this.setModalVisible.bind(this)
+    this.setphotoGalaryModal = this.setphotoGalaryModal.bind(this)
+  }
+
+  componentDidUpdate(previousProps, previousState) {
+    if (previousProps.route.params !== this.props.route.params && this.state.useCamera) {
+      if (this.props.route.params.Imagesrc) {
+        this.setState({
+          ...this.state,
+          ImageSrc: this.props.route.params.Imagesrc
+        })
+      }
+    } else {
+      console.log("update")
+    }
   }
 
   emailOnChange(Email) {
@@ -31,6 +48,7 @@ export default class Onboarding extends React.Component {
       ...this.state,
       Email: Email
     })
+
   }
 
   sendImage() {
@@ -40,7 +58,6 @@ export default class Onboarding extends React.Component {
       sickness_detail: "Toàn",
       sickness_treatment: "Toàn",
     }
-
   }
 
   pickImage = async () => {
@@ -50,6 +67,7 @@ export default class Onboarding extends React.Component {
       aspect: [4, 3],
       quality: 1,
     });
+
 
     this.setState({
       ...this.state,
@@ -63,6 +81,15 @@ export default class Onboarding extends React.Component {
       modalVisible: !this.state.modalVisible
     })
   }
+
+  setphotoGalaryModal = () => {
+    this.setState({
+      ...this.state,
+      photoGalaryModal: !this.state.photoGalaryModal
+    })
+  }
+
+
 
   renderCards = () => {
     return (
@@ -102,15 +129,27 @@ export default class Onboarding extends React.Component {
                 <Block></Block>
             }
           </Block>
+          <Block>
+            <TouchableWithoutFeedback onPress={this.setphotoGalaryModal}>
+              <Text style={styles.buttonPhoto}>{lng.Interface003.Label.setphoto}</Text>
+            </TouchableWithoutFeedback>
+          </Block>
         </Block>
       </Block>
     )
   }
 
-  renderButton = lng => {
+  renderButton = (lng, navigation) => {
     return (
       <Block style={styles.card}>
-        <TouchableWithoutFeedback onPress={() => console.log("click")}>
+        <TouchableWithoutFeedback onPress={() => {
+          this.setState({
+            ...this.state,
+            useCamera: true
+          })
+          navigation.navigate('Camera')
+        }
+        }>
           <Block>
             <Image source={Images.Camera} style={styles.icon} />
           </Block>
@@ -124,9 +163,41 @@ export default class Onboarding extends React.Component {
     )
   }
 
+  renderAlbum = () => {
+    const { navigation } = this.props;
+
+    return (
+      <Block flex style={[styles.group, { paddingBottom: theme.SIZES.BASE * 5 }]}>
+        <Text bold size={16} style={styles.title}>Album</Text>
+        <Block style={{ marginHorizontal: theme.SIZES.BASE * 2 }}>
+          <Block flex right>
+            <Text
+              size={12}
+              color={theme.COLORS.PRIMARY}
+              onPress={() => navigation.navigate('Home')}>
+              View All
+            </Text>
+          </Block>
+          <Block row space="between" style={{ marginTop: theme.SIZES.BASE, flexWrap: 'wrap' }} >
+            {Images.Viewed.map((img, index) => (
+              <Block key={`viewed-${img}`} style={styles.shadow}>
+                <Image
+                  resizeMode="cover"
+                  source={{ uri: img }}
+                  style={styles.albumThumb}
+                />
+              </Block>
+            ))}
+          </Block>
+        </Block>
+      </Block>
+    )
+  }
+
   render() {
     let { lng } = this.state
     const { navigation } = this.props;
+
 
     return (
       <Block flex style={styles.container}>
@@ -142,7 +213,7 @@ export default class Onboarding extends React.Component {
             showsVerticalScrollIndicator={false}
             style={{ height: height / 4 }}>
             <Block flex space="around" style={styles.padded}>
-              {this.renderButton(lng)}
+              {this.renderButton(lng, navigation)}
 
               {this.renderButtonDetect(lng)}
             </Block>
@@ -158,11 +229,38 @@ export default class Onboarding extends React.Component {
           </View>
         </Modal>
         <Interface005
-            modalVisible={this.state.modalVisible}
-            setModalVisible={this.setModalVisible.bind(this)}
-            emailOnChange={this.emailOnChange.bind(this)}
-            sendImage={this.sendImage.bind(this)}
-          />
+          modalVisible={this.state.modalVisible}
+          setModalVisible={this.setModalVisible.bind(this)}
+          emailOnChange={this.emailOnChange.bind(this)}
+          sendImage={this.sendImage.bind(this)}
+        />
+        <Modal
+          animationType="slide"
+          transparent={true} h
+          visible={this.state.photoGalaryModal}
+        >
+          <Block flex style={styles.album}>
+            <StatusBar barStyle="light-content" />
+            <ImageBackground
+              source={Images.Background}
+              style={{ width: width, height: height, zIndex: 1 }}
+            >
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                style={{ height: height / 4 }}>
+                <Block flex space="around" style={styles.padded}>
+                  {this.renderAlbum()}
+                </Block>
+              </ScrollView>
+            </ImageBackground>
+          </Block>
+        </Modal>
+        <Button
+          photoGalaryModal={this.state.photoGalaryModal}
+          setphotoGalaryModal={this.setphotoGalaryModal.bind(this)}
+
+        >
+        </Button>
       </Block>
     );
   }
@@ -195,6 +293,14 @@ const styles = StyleSheet.create({
     elevation: 10,
     shadowRadius: 10,
     shadowOffset: { width: 14, height: 20 },
+  },
+  buttonPhoto: {
+    fontSize: theme.SIZES.BASE * 1.2,
+    color: '#4A4A4A',
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: -0.29,
+
   },
   optionsText: {
     fontSize: theme.SIZES.BASE * 1.2,
@@ -243,6 +349,17 @@ const styles = StyleSheet.create({
     height: height,
     width: width,
     backgroundColor: "black",
-    opacity:0.5,
-  }
+    opacity: 0.5,
+  },
+  albumThumb: {
+    borderRadius: 4,
+    marginVertical: 4,
+    alignSelf: 'center',
+    width: thumbMeasure,
+    height: thumbMeasure
+  },
+  album: {
+    height: height,
+    width: width
+  },
 });

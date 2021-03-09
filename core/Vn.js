@@ -14,7 +14,8 @@ export default {
 
     "Interface003": {
         "Label": {
-            "detect": "NHẬN DIỆN"
+            "detect": "NHẬN DIỆN",
+            "setphoto": "Xem Thêm Ảnh",
         }
     },
 
