@@ -12,6 +12,13 @@ export default {
         }
     },
 
+    "Interface003": {
+        "Label": {
+            "detect": "NHẬN DIỆN",
+            "setphoto": "Xem Thêm Ảnh",
+        }
+    },
+
     "Interface005": {
         "Label": {
             "input_email_tittle": "Nhập email để tiếp tục!",

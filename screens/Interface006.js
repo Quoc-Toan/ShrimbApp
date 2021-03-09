@@ -30,13 +30,6 @@ export default class Onboarding extends React.Component {
     this.setModalVisible = this.setModalVisible.bind(this)
   }
 
-  sicknessInfo = {
-    ImageSrc: "https://i.pinimg.com/originals/26/a7/01/26a701524dc57f1dea6c3257eb156a41.jpg",
-    sickness_name: "Toàn",
-    sickness_detail: "Toàn",
-    sickness_treatment: "Toàn",
-  }
-
   emailOnChange(Email) {
     this.setState({
       ...this.state,

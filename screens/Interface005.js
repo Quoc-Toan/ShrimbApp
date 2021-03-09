@@ -62,11 +62,26 @@ export default class Interface005 extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "black",
+  },
+  padded: {
+    paddingHorizontal: theme.SIZES.BASE * 2,
+    position: 'relative',
+    bottom: theme.SIZES.BASE,
+  },
   button: {
     width: width - theme.SIZES.BASE * 4,
     height: theme.SIZES.BASE * 3,
     shadowRadius: 0,
     shadowOpacity: 0,
+  },
+  textStyle: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 20,
+    margin: 5,
+    borderRadius: 2,
   },
   modalText: {
     textAlign: 'center',

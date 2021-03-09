@@ -88,8 +88,7 @@ export default function Interface004(props) {
                 //   to: uri,
                 // });
 
-                console.log(photo);
-                props.navigation.navigate("Profile", {
+                props.navigation.navigate("Nhận diện má :3", {
                   Imagesrc: photo["uri"],
                   Name: name,
                 });
