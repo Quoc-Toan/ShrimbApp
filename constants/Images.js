@@ -10,6 +10,7 @@ const Products = {
 
 const Camera = require('../assets/images/camera.png');
 const Picture = require('../assets/images/gallary.png');
+const Back = require('../assets/images/left-arrow.png');
 
 
 const Profile = 'https://images.unsplash.com/photo-1512529920731-e8abaea917a5?fit=crop&w=840&q=80';
@@ -37,5 +38,6 @@ export default {
   Avatar,
   Camera,
   Picture,
+  Back,
   White,
 }

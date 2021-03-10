@@ -219,15 +219,6 @@ export default class Onboarding extends React.Component {
             </Block>
           </ScrollView>
         </ImageBackground>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.modalVisible}
-        >
-          <View style={styles.overlay}>
-
-          </View>
-        </Modal>
         <Interface005
           modalVisible={this.state.modalVisible}
           setModalVisible={this.setModalVisible.bind(this)}
@@ -245,6 +236,12 @@ export default class Onboarding extends React.Component {
               source={Images.Background}
               style={{ width: width, height: height, zIndex: 1 }}
             >
+              <TouchableWithoutFeedback onPress={() => this.setphotoGalaryModal()}>
+                <Block>
+                  <Image source={Images.Back} style={styles.back} />
+                </Block>
+              </TouchableWithoutFeedback>
+
               <ScrollView
                 showsVerticalScrollIndicator={false}
                 style={{ height: height / 4 }}>
@@ -279,13 +276,13 @@ const styles = StyleSheet.create({
     height: height / 2
   },
   button: {
-    width: width - theme.SIZES.BASE * 7,
     backgroundColor: 'white',
-    height: height - theme.SIZES.BASE * 50,
     shadowColor: 'rgba(0, 0, 0, 0)',
     elevation: 10,
-    shadowRadius: 10,
     shadowOffset: { width: 14, height: 20 },
+    width: width - theme.SIZES.BASE * 7,
+    height: height - theme.SIZES.BASE * 46,
+    shadowRadius: 10,
   },
   buttonPhoto: {
     fontSize: theme.SIZES.BASE * 1.2,
@@ -360,4 +357,11 @@ const styles = StyleSheet.create({
     height: height,
     width: width
   },
+  back: {
+    height: height / 18,
+    width: width / 10,
+    paddingHorizontal: '6%',
+    marginTop: '12%',
+    marginHorizontal: '6%'
+  }
 });
