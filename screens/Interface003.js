@@ -129,11 +129,6 @@ export default class Onboarding extends React.Component {
                 <Block></Block>
             }
           </Block>
-          <Block>
-            <TouchableWithoutFeedback onPress={this.setphotoGalaryModal}>
-              <Text style={styles.buttonPhoto}>{lng.Interface003.Label.setphoto}</Text>
-            </TouchableWithoutFeedback>
-          </Block>
         </Block>
       </Block>
     )
@@ -216,6 +211,11 @@ export default class Onboarding extends React.Component {
               {this.renderButton(lng, navigation)}
 
               {this.renderButtonDetect(lng)}
+              <Block style={styles.buttonPhotoBox}>
+                <TouchableWithoutFeedback onPress={this.setphotoGalaryModal}>
+                  <Text style={styles.buttonPhoto}>{lng.Interface003.Label.setphoto}</Text>
+                </TouchableWithoutFeedback>
+              </Block>
             </Block>
           </ScrollView>
         </ImageBackground>
@@ -255,12 +255,6 @@ export default class Onboarding extends React.Component {
             </ImageBackground>
           </Block>
         </Modal>
-        <Button
-          photoGalaryModal={this.state.photoGalaryModal}
-          setphotoGalaryModal={this.setphotoGalaryModal.bind(this)}
-
-        >
-        </Button>
       </Block>
     );
   }
@@ -268,8 +262,7 @@ export default class Onboarding extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "black",
-
+    backgroundColor: "black"
   },
   logo: {
     width: 280,
@@ -277,13 +270,13 @@ const styles = StyleSheet.create({
     zIndex: 1,
     position: "absolute",
     alignSelf: 'center',
-    top: "20%",
-
+    top: "20%"
   },
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,
     position: 'relative',
     bottom: theme.SIZES.BASE,
+    height: height / 2
   },
   button: {
     width: width - theme.SIZES.BASE * 7,
@@ -300,7 +293,12 @@ const styles = StyleSheet.create({
     fontWeight: "normal",
     fontStyle: "normal",
     letterSpacing: -0.29,
-
+  },
+  buttonPhotoBox: {
+    width: width,
+    position: "absolute",
+    bottom: 0,
+    alignItems: "center",
   },
   optionsText: {
     fontSize: theme.SIZES.BASE * 1.2,
