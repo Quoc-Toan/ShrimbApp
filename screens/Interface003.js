@@ -11,7 +11,7 @@ import { Vn } from "../core"
 import Interface005 from "./Interface005";
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
-const thumbMeasure = (width - 48 - 32) / 3;
+const thumbMeasure = (width) / 2.5;
 
 export default class Onboarding extends React.Component {
   constructor(props) {
@@ -23,6 +23,35 @@ export default class Onboarding extends React.Component {
       lng: Vn,
       useCamera: false,
       photoGalaryModal: false,
+      Viewed: [
+        {
+          ImageSrc: 'https://znews-photo.zadn.vn/w660/Uploaded/bpmoqwq1/2014_10_16/con_meo.jpg',
+          sickness_name: "Toàn",
+          sickness_detail: "Toàn",
+          sickness_treatment: "Toàn",
+        },
+        {
+          ImageSrc: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?fit=crop&w=240&q=80',
+          sickness_name: "Toàn",
+          sickness_detail: "Toàn",
+          sickness_treatment: "Toàn",
+        },
+        {
+          ImageSrc: 'https://images.unsplash.com/photo-1487376480913-24046456a727?fit=crop&w=240&q=80',
+          sickness_name: "Toàn",
+          sickness_detail: "Toàn",
+          sickness_treatment: "Toàn",
+        },
+        {
+          ImageSrc: 'https://images.unsplash.com/photo-1494894194458-0174142560c0?fit=crop&w=240&q=80',
+          sickness_name: "Toàn",
+          sickness_detail: "Toàn",
+          sickness_treatment: "Toàn",
+        },
+
+        // 'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?fit=crop&w=240&q=80',
+        // 'https://images.unsplash.com/photo-1542068829-1115f7259450?fit=crop&w=240&q=80',
+      ]
     }
 
     this.pickImage = this.pickImage.bind(this)
@@ -129,11 +158,6 @@ export default class Onboarding extends React.Component {
                 <Block></Block>
             }
           </Block>
-          <Block>
-            <TouchableWithoutFeedback onPress={this.setphotoGalaryModal}>
-              <Text style={styles.buttonPhoto}>{lng.Interface003.Label.setphoto}</Text>
-            </TouchableWithoutFeedback>
-          </Block>
         </Block>
       </Block>
     )
@@ -167,9 +191,9 @@ export default class Onboarding extends React.Component {
     const { navigation } = this.props;
 
     return (
-      <Block flex style={[styles.group, { paddingBottom: theme.SIZES.BASE * 5 }]}>
+      <Block flex style={[styles.group, { paddingBottom: theme.SIZES.BASE }]}>
         <Text bold size={16} style={styles.title}>Album</Text>
-        <Block style={{ marginHorizontal: theme.SIZES.BASE * 2 }}>
+        <Block>
           <Block flex right>
             <Text
               size={12}
@@ -179,14 +203,20 @@ export default class Onboarding extends React.Component {
             </Text>
           </Block>
           <Block row space="between" style={{ marginTop: theme.SIZES.BASE, flexWrap: 'wrap' }} >
-            {Images.Viewed.map((img, index) => (
-              <Block key={`viewed-${img}`} style={styles.shadow}>
+            {this.state.Viewed.map((img, index) => (
+              <TouchableWithoutFeedback 
+                      onPress={() => {
+                        this.setphotoGalaryModal()
+                        navigation.navigate("Kết quả", img)
+                      }} 
+                      key={`viewed-${img.ImageSrc}`} 
+                      style={styles.shadow}>
                 <Image
-                  resizeMode="cover"
-                  source={{ uri: img }}
+                  source={{ uri: img.ImageSrc }}
                   style={styles.albumThumb}
                 />
-              </Block>
+              </TouchableWithoutFeedback>
+              
             ))}
           </Block>
         </Block>
@@ -216,18 +246,14 @@ export default class Onboarding extends React.Component {
               {this.renderButton(lng, navigation)}
 
               {this.renderButtonDetect(lng)}
+              <Block style={styles.buttonPhotoBox}>
+                <TouchableWithoutFeedback onPress={this.setphotoGalaryModal}>
+                  <Text style={styles.buttonPhoto}>{lng.Interface003.Label.setphoto}</Text>
+                </TouchableWithoutFeedback>
+              </Block>
             </Block>
           </ScrollView>
         </ImageBackground>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.modalVisible}
-        >
-          <View style={styles.overlay}>
-
-          </View>
-        </Modal>
         <Interface005
           modalVisible={this.state.modalVisible}
           setModalVisible={this.setModalVisible.bind(this)}
@@ -242,9 +268,15 @@ export default class Onboarding extends React.Component {
           <Block flex style={styles.album}>
             <StatusBar barStyle="light-content" />
             <ImageBackground
-              source={Images.Background}
+              source={require('..//assets/images/bgOverlay.png')}
               style={{ width: width, height: height, zIndex: 1 }}
             >
+              <TouchableWithoutFeedback onPress={() => this.setphotoGalaryModal()}>
+                <Block>
+                  <Image source={Images.Back} style={styles.back} />
+                </Block>
+              </TouchableWithoutFeedback>
+
               <ScrollView
                 showsVerticalScrollIndicator={false}
                 style={{ height: height / 4 }}>
@@ -255,12 +287,6 @@ export default class Onboarding extends React.Component {
             </ImageBackground>
           </Block>
         </Modal>
-        <Button
-          photoGalaryModal={this.state.photoGalaryModal}
-          setphotoGalaryModal={this.setphotoGalaryModal.bind(this)}
-
-        >
-        </Button>
       </Block>
     );
   }
@@ -268,8 +294,7 @@ export default class Onboarding extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "black",
-
+    backgroundColor: "black"
   },
   logo: {
     width: 280,
@@ -277,22 +302,22 @@ const styles = StyleSheet.create({
     zIndex: 1,
     position: "absolute",
     alignSelf: 'center',
-    top: "20%",
-
+    top: "20%"
   },
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,
     position: 'relative',
     bottom: theme.SIZES.BASE,
+    height: height / 2
   },
   button: {
-    width: width - theme.SIZES.BASE * 7,
     backgroundColor: 'white',
-    height: height - theme.SIZES.BASE * 50,
     shadowColor: 'rgba(0, 0, 0, 0)',
     elevation: 10,
-    shadowRadius: 10,
     shadowOffset: { width: 14, height: 20 },
+    width: width - theme.SIZES.BASE * 7,
+    height: height - theme.SIZES.BASE * 46,
+    shadowRadius: 10,
   },
   buttonPhoto: {
     fontSize: theme.SIZES.BASE * 1.2,
@@ -300,7 +325,12 @@ const styles = StyleSheet.create({
     fontWeight: "normal",
     fontStyle: "normal",
     letterSpacing: -0.29,
-
+  },
+  buttonPhotoBox: {
+    width: width,
+    position: "absolute",
+    bottom: 0,
+    alignItems: "center",
   },
   optionsText: {
     fontSize: theme.SIZES.BASE * 1.2,
@@ -356,10 +386,17 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     alignSelf: 'center',
     width: thumbMeasure,
-    height: thumbMeasure
+    height: thumbMeasure,
   },
   album: {
     height: height,
     width: width
   },
+  back: {
+    height: height / 18,
+    width: width / 10,
+    paddingHorizontal: '6%',
+    marginTop: '12%',
+    marginHorizontal: '6%'
+  }
 });

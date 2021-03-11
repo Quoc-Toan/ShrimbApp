@@ -43,7 +43,7 @@ export default class Onboarding extends React.Component {
 
 
   componentDidMount() {
-    this.convertSicknessInfo(this.sicknessInfo)
+    this.convertSicknessInfo(this.props.route.params)
   }
 
   convertSicknessInfo(sicknessInfo) {
@@ -137,15 +137,6 @@ export default class Onboarding extends React.Component {
             </Block>
           </ScrollView>
         </ImageBackground>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.modalVisible}
-        >
-          <View style={styles.overlay}>
-
-          </View>
-        </Modal>
         <Interface007
           modalVisible={this.state.modalVisible}
           setModalVisible={this.setModalVisible}

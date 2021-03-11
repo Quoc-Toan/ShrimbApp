@@ -67,8 +67,6 @@ const styles = StyleSheet.create({
     bottom: theme.SIZES.BASE,
   },
   button: {
-    // width: width - theme.SIZES.BASE * 8,
-    // height: theme.SIZES.BASE * 3,
     shadowRadius: 0,
     shadowOpacity: 0,
   },

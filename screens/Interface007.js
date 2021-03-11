@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, Modal, View } from 'react-native';
+import { StyleSheet, Dimensions, Modal, View, ImageBackground } from 'react-native';
 import { Block, Button, Text, theme, Input } from 'galio-framework';
 
 const { height, width } = Dimensions.get('screen');
@@ -25,7 +25,7 @@ export default class Interface007 extends React.Component {
                 onRequestClose={() => {
                     Alert.alert('Modal has been closed.');
                 }}>
-                <View style={styles.centeredView}>
+                <ImageBackground source={require('..//assets/images/bgOverlay.png')} style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>{lng.Interface007.Label.recomment_tittle}</Text>
 
@@ -37,65 +37,73 @@ export default class Interface007 extends React.Component {
                             onChangeText={text => this.props.messageOnChange(text)}
                         />
 
-                        <Block row space="evenly">
-                            <Block flex right>
-                                <Button
-                                    style={styles.but}
-                                    onPress={() => this.props.sendMess()}>
-                                    {lng.Interface007.Label.send}
-                                </Button>
-                            </Block>
-                            <Block flex left>
-                                <Button
-                                    style={styles.but}
-                                    onPress={() => this.props.setModalVisible()}>
-                                    {lng.Interface007.Label.cancel}
-                                </Button>
-                            </Block>
+                        <Block style={styles.btBlock} fontSize={15}>
+                            <Button
+                                style={styles.but}
+                                onPress={() => this.props.sendMess()}>
+                                {lng.Interface007.Label.send}
+                            </Button>
+                            <Button
+                                style={styles.but}
+                                onPress={() => this.props.setModalVisible()}>
+                                {lng.Interface007.Label.cancel}
+                            </Button>
                         </Block>
                     </View>
-                </View>
+                </ImageBackground>
             </Modal>
         )
     }
 }
 
 const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "black",
+    },
+    padded: {
+        paddingHorizontal: theme.SIZES.BASE * 2,
+        position: 'relative',
+        bottom: theme.SIZES.BASE,
+    },
     button: {
-        width: width - theme.SIZES.BASE * 4,
-        height: theme.SIZES.BASE * 3,
         shadowRadius: 0,
         shadowOpacity: 0,
     },
+    textStyle: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 20,
+        margin: 5,
+        borderRadius: 2,
+    },
     modalText: {
         textAlign: 'center',
-        fontSize: 22,
+        fontSize: 25,
         fontWeight: 'bold',
-        padding: 5,
+        paddingBottom: 10,
     },
     modalView: {
         justifyContent: 'center',
-        width: width - theme.SIZES.BASE * 8,
     },
     centeredView: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: theme.SIZES.BASE * 17,
-        marginBottom: theme.SIZES.BASE * 17,
-        marginLeft: width - theme.SIZES.BASE * 22,
-        marginRight: width - theme.SIZES.BASE * 22,
-        backgroundColor: "white",
-    },
-    textfield: {
-        height: 50,
-        borderColor: 'gray',
-        borderWidth: 1,
     },
     but: {
-        width: width - theme.SIZES.BASE * 16,
-        height: theme.SIZES.BASE * 2.5,
+        width: width - width / 2,
+        height: height / 22,
         backgroundColor: '#2196F3',
         shadowOpacity: 0,
+        fontSize: 5,
+        fontWeight: "bold",
+    },
+    search: {
+        height: height / 15,
+    },
+    btBlock: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 8,
     }
 });
