@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, StatusBar, Dimensions, View, ScrollView, Modal } from 'react-native';
+import { ImageBackground, StyleSheet, StatusBar, Dimensions, View, TouchableWithoutFeedback, Image, ScrollView, Modal } from 'react-native';
 import { Block, Button, Text, theme } from 'galio-framework';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -7,10 +7,10 @@ const { height, width } = Dimensions.get('screen');
 
 import materialTheme from '../constants/Theme';
 import Images from '../constants/Images';
-import { Vn } from "../core"
+import { Vn } from "../core";
 
 import Interface007 from "./Interface007";
-import { block } from 'react-native-reanimated';
+import { block, color } from 'react-native-reanimated';
 
 export default class Onboarding extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ export default class Onboarding extends React.Component {
       sickness_name: null,
       sickness_detail: null,
       sickness_treatment: null,
-      Message:"",
+      Message: "",
       Email: "",
     }
 
@@ -40,7 +40,6 @@ export default class Onboarding extends React.Component {
   sendImage() {
     console.log(this.state)
   }
-
 
   componentDidMount() {
     this.convertSicknessInfo(this.props.route.params)
@@ -86,19 +85,21 @@ export default class Onboarding extends React.Component {
           </Block>
         </Block>
       </Block>
-
     )
   }
+
   renderText = lng => {
     return (
       <Block flex style={styles.group}>
         <Block style={styles.console}>
-          <Text p style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_name}</Text>
-          <Text muted>{this.state.sickness_name}</Text>
-          <Text p style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_detail}</Text>
-          <Text muted>{this.state.sickness_detail}</Text>
-          <Text p style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_treatment}</Text>
-          <Text muted>{this.state.sickness_treatment}</Text>
+          <Text h5 style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_name}</Text>
+          <Text p style={{ marginBottom: theme.SIZES.BASE, color: "gray" }}>{this.state.sickness_name}</Text>
+
+          <Text h5 style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_detail}</Text>
+          <Text p style={{ marginBottom: theme.SIZES.BASE, color: "gray" }}>{this.state.sickness_detail}</Text>
+          
+          <Text h5 style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_treatment}</Text>
+          <Text p style={{ marginBottom: theme.SIZES.BASE, color: "gray" }}>{this.state.sickness_treatment}</Text>
         </Block>
         <Block >
           <Block center>
@@ -125,6 +126,11 @@ export default class Onboarding extends React.Component {
           source={Images.Background}
           style={{ width: width, height: height, zIndex: 1 }}
         >
+          <TouchableWithoutFeedback onPress={() => navigation.navigate('Nhận diện')}>
+            <Block>
+              <Image source={Images.Back1} style={styles.back} />
+            </Block>
+          </TouchableWithoutFeedback>
           <Block flex center>
             {this.renderCards()}
           </Block>
@@ -203,6 +209,13 @@ const styles = StyleSheet.create({
     height: height,
     width: width,
     backgroundColor: "black",
-    opacity:0.5,
+    opacity: 0.5,
+  },
+  back: {
+    height: height / 30,
+    width: width / 30,
+    paddingHorizontal: '6%',
+    marginTop: '3%',
+    marginHorizontal: '6%'
   }
 });

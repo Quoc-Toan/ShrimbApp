@@ -25,6 +25,7 @@ export default {
             "email_placeholder": "example@gmail.com",
             "send": "GỬI",
             "cancel": "HỦY",
+            "ee": "email không tồn tại!!!"
         }
     },
 

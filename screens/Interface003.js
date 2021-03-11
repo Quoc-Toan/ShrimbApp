@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, StatusBar, Dimensions, ScrollView, TouchableWithoutFeedback, Image, Modal, View } from 'react-native';
+import { ImageBackground, StyleSheet, StatusBar, Dimensions, ScrollView, TouchableWithoutFeedback, Image, Modal, View, AsyncStorage } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Block, Button, Text, theme } from 'galio-framework';
 
@@ -9,7 +9,6 @@ import materialTheme from '../constants/Theme';
 import Images from '../constants/Images';
 import { Vn } from "../core"
 import Interface005 from "./Interface005";
-import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
 const thumbMeasure = (width) / 2.5;
 
@@ -23,6 +22,7 @@ export default class Onboarding extends React.Component {
       lng: Vn,
       useCamera: false,
       photoGalaryModal: false,
+      isEmailValid: true,
       Viewed: [
         {
           ImageSrc: 'https://znews-photo.zadn.vn/w660/Uploaded/bpmoqwq1/2014_10_16/con_meo.jpg',
@@ -48,15 +48,17 @@ export default class Onboarding extends React.Component {
           sickness_detail: "Toàn",
           sickness_treatment: "Toàn",
         },
-
-        // 'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?fit=crop&w=240&q=80',
-        // 'https://images.unsplash.com/photo-1542068829-1115f7259450?fit=crop&w=240&q=80',
       ]
     }
 
     this.pickImage = this.pickImage.bind(this)
     this.setModalVisible = this.setModalVisible.bind(this)
     this.setphotoGalaryModal = this.setphotoGalaryModal.bind(this)
+    this.detectImage = this.detectImage.bind(this)
+  }
+
+  componentDidMount = async () => {
+    await AsyncStorage.removeItem("Email")
   }
 
   componentDidUpdate(previousProps, previousState) {
@@ -64,12 +66,18 @@ export default class Onboarding extends React.Component {
       if (this.props.route.params.Imagesrc) {
         this.setState({
           ...this.state,
-          ImageSrc: this.props.route.params.Imagesrc
+          ImageSrc: this.props.route.params.Imagesrc,
+          modalVisible: false,
+          photoGalaryModal: false
         })
       }
-    } else {
-      console.log("update")
     }
+  }
+
+  validate = (email) => {
+    const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+
+    return expression.test(String(email).toLowerCase())
   }
 
   emailOnChange(Email) {
@@ -77,15 +85,33 @@ export default class Onboarding extends React.Component {
       ...this.state,
       Email: Email
     })
-
   }
 
-  sendImage() {
-    sicknessInfo = {
-      ImageSrc: this.state.ImageSrc,
-      sickness_name: "Toàn",
-      sickness_detail: "Toàn",
-      sickness_treatment: "Toàn",
+  detectImage = async () => {
+    let value = await AsyncStorage.getItem("Email");
+    if (value !== null) {
+      this.props.navigation.navigate("Kết quả", sicknessInfo = {
+        ImageSrc: this.state.ImageSrc,
+        sickness_name: "Toàn",
+        sickness_detail: "Toàn",
+        sickness_treatment: "Toàn",
+      })
+    } else {
+      this.setModalVisible()
+    }
+  }
+
+  sendImage = async () => {
+    let { Email } = this.state
+    let isEmailValid = this.validate(Email)
+    this.setState({
+      ...this.state,
+      isEmailValid: isEmailValid
+    })
+    if(isEmailValid) {
+      await AsyncStorage.setItem("Email", Email).then(() => {
+        this.detectImage()
+      })
     }
   }
 
@@ -96,7 +122,6 @@ export default class Onboarding extends React.Component {
       aspect: [4, 3],
       quality: 1,
     });
-
 
     this.setState({
       ...this.state,
@@ -117,8 +142,6 @@ export default class Onboarding extends React.Component {
       photoGalaryModal: !this.state.photoGalaryModal
     })
   }
-
-
 
   renderCards = () => {
     return (
@@ -152,7 +175,7 @@ export default class Onboarding extends React.Component {
                   shadowless
                   style={styles.button}
                   textStyle={styles.optionsText}
-                  onPress={this.setModalVisible}>
+                  onPress={this.detectImage}>
                   {lng.Interface003.Label.detect}
                 </Button> :
                 <Block></Block>
@@ -192,31 +215,22 @@ export default class Onboarding extends React.Component {
 
     return (
       <Block flex style={[styles.group, { paddingBottom: theme.SIZES.BASE }]}>
-        <Text bold size={16} style={styles.title}>Album</Text>
         <Block>
-          <Block flex right>
-            <Text
-              size={12}
-              color={theme.COLORS.PRIMARY}
-              onPress={() => navigation.navigate('Home')}>
-              View All
-            </Text>
-          </Block>
           <Block row space="between" style={{ marginTop: theme.SIZES.BASE, flexWrap: 'wrap' }} >
             {this.state.Viewed.map((img, index) => (
-              <TouchableWithoutFeedback 
-                      onPress={() => {
-                        this.setphotoGalaryModal()
-                        navigation.navigate("Kết quả", img)
-                      }} 
-                      key={`viewed-${img.ImageSrc}`} 
-                      style={styles.shadow}>
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  this.setphotoGalaryModal()
+                  navigation.navigate("Kết quả", img)
+                }}
+                key={`viewed-${img.ImageSrc}`}
+                style={styles.shadow}>
                 <Image
                   source={{ uri: img.ImageSrc }}
                   style={styles.albumThumb}
                 />
               </TouchableWithoutFeedback>
-              
+
             ))}
           </Block>
         </Block>
@@ -259,6 +273,7 @@ export default class Onboarding extends React.Component {
           setModalVisible={this.setModalVisible.bind(this)}
           emailOnChange={this.emailOnChange.bind(this)}
           sendImage={this.sendImage.bind(this)}
+          isEmailValid={this.state.isEmailValid}
         />
         <Modal
           animationType="slide"
@@ -297,12 +312,15 @@ const styles = StyleSheet.create({
     backgroundColor: "black"
   },
   logo: {
-    width: 280,
-    height: 280,
+    height: height * 0.3,
+    width: width * 0.3,
     zIndex: 1,
     position: "absolute",
     alignSelf: 'center',
-    top: "20%"
+    top: "30%",
+    borderRadius: 4,
+    marginVertical: 4,
+    alignSelf: 'center'
   },
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,
@@ -315,8 +333,8 @@ const styles = StyleSheet.create({
     shadowColor: 'rgba(0, 0, 0, 0)',
     elevation: 10,
     shadowOffset: { width: 14, height: 20 },
-    width: width - theme.SIZES.BASE * 7,
-    height: height - theme.SIZES.BASE * 46,
+    width: width - width / 2,
+    height: height / 16,
     shadowRadius: 10,
   },
   buttonPhoto: {
