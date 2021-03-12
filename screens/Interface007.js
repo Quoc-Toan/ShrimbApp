@@ -14,7 +14,6 @@ export default class Interface007 extends React.Component {
             lng: Vn
         }
     }
-
     render() {
         let { lng } = this.state
         return (
@@ -28,14 +27,19 @@ export default class Interface007 extends React.Component {
                 <ImageBackground source={require('..//assets/images/bgOverlay.png')} style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>{lng.Interface007.Label.recomment_tittle}</Text>
-
+                        
                         <Input
-                            right
+                            style={styles.textArea}
+                            underlineColorAndroid="transparent"
                             color="black"
-                            style={styles.search}
                             placeholder={lng.Interface007.Label.recomment_placeholder}
+                            placeholderTextColor="grey"
+                            numberOfLines={10}
+                            multiline={true}
                             onChangeText={text => this.props.messageOnChange(text)}
                         />
+
+                        {!this.props.isMessageValid ? <Text muted color="red">{lng.Interface007.Label.ee}</Text> : <Text></Text>} 
 
                         <Block style={styles.btBlock} fontSize={15}>
                             <Button
@@ -98,12 +102,17 @@ const styles = StyleSheet.create({
         fontSize: 5,
         fontWeight: "bold",
     },
-    search: {
-        height: height / 15,
-    },
+
     btBlock: {
         justifyContent: 'center',
         alignItems: 'center',
         paddingTop: 8,
+    },
+    textArea: {
+        height: 150,
+        borderColor: "gray",
+        borderWidth: 1,
+        padding: 5,
+        justifyContent: "flex-start"
     }
 });

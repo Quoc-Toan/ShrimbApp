@@ -82,7 +82,7 @@ export default class Onboarding extends React.Component {
 
   emailOnChange(Email) {
     this.setState({
-      ...this.state,
+      ...this.state, 
       Email: Email
     })
   }

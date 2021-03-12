@@ -35,6 +35,9 @@ export default {
             "sickness_detail": "Thông tin bệnh",
             "sickness_treatment": "Cách chữa trị",
             "recomment": "Ý KIẾN",
+            "arigatou" : "Cảm ơn đóng góp của bạn !",
+            "HeoNghi" : "Thông báo",
+            "ButaNghi" : "Đồng Ý"
         }
     },
 
@@ -44,6 +47,7 @@ export default {
             "recomment_placeholder": "Ví dụ...",
             "send": "GỬI",
             "cancel": "HỦY",
+            "ee": "Vui lòng nhập ý kiến của bạn",
         }
     }
 }

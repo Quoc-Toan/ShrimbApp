@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, StatusBar, Dimensions, View, TouchableWithoutFeedback, Image, ScrollView, Modal } from 'react-native';
+import { ImageBackground, StyleSheet, StatusBar, Dimensions, View, TouchableWithoutFeedback, Image, ScrollView, Modal, Alert } from 'react-native';
 import { Block, Button, Text, theme } from 'galio-framework';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -23,22 +23,16 @@ export default class Onboarding extends React.Component {
       sickness_name: null,
       sickness_detail: null,
       sickness_treatment: null,
-      Message: "",
-      Email: "",
+      isMessageValid: true,
+
+      Message: ""
     }
 
     this.setModalVisible = this.setModalVisible.bind(this)
   }
 
-  emailOnChange(Email) {
-    this.setState({
-      ...this.state,
-      Email: Email
-    })
-  }
-
-  sendImage() {
-    console.log(this.state)
+  validate(Message) {
+    return Message && Message !== ""
   }
 
   componentDidMount() {
@@ -70,7 +64,22 @@ export default class Onboarding extends React.Component {
   }
 
   sendMess() {
-    console.log(this.state)
+    let { Message, lng } = this.state
+    let isMessageValid = this.validate(Message)
+    this.setState({
+      ...this.state,
+      isMessageValid: isMessageValid
+    })
+    if (isMessageValid) {
+      Alert.alert(
+        lng.Interface006.Label.HeoNghi,
+        lng.Interface006.Label.arigatou,
+        [
+          { text: lng.Interface006.Label.ButaNghi, onPress: () => this.setModalVisible() }
+        ],
+        { cancelable: false }
+      );
+    }
   }
 
   renderCards = () => {
@@ -97,7 +106,7 @@ export default class Onboarding extends React.Component {
 
           <Text h5 style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_detail}</Text>
           <Text p style={{ marginBottom: theme.SIZES.BASE, color: "gray" }}>{this.state.sickness_detail}</Text>
-          
+
           <Text h5 style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_treatment}</Text>
           <Text p style={{ marginBottom: theme.SIZES.BASE, color: "gray" }}>{this.state.sickness_treatment}</Text>
         </Block>
@@ -148,6 +157,7 @@ export default class Onboarding extends React.Component {
           setModalVisible={this.setModalVisible}
           messageOnChange={this.messageOnChange.bind(this)}
           sendMess={this.sendMess.bind(this)}
+          isMessageValid={this.state.isMessageValid}
         />
       </Block>
     );
