@@ -147,15 +147,17 @@ export default class Onboarding extends React.Component {
     return (
       <Block flex style={styles.group}>
         <Block flex>
-          <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
+          <Block style={styles.ImageContainer}>
             {
               (this.state.ImageSrc != "") ?
-                <ImageBackground
+                <Image
                   source={{ uri: this.state.ImageSrc }}
+                  resizeMode={"cover"}
                   style={styles.logo} /> :
-                <ImageBackground
+                <Image
                   source={Images.White}
-                  style={styles.logo} />
+                  style={styles.logo} 
+                  resizeMode={"cover"}/>
             }
           </Block>
         </Block>
@@ -311,17 +313,17 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "black"
   },
-  logo: {
-    height: height * 0.3,
-    width: width * 0.3,
-    zIndex: 1,
-    position: "absolute",
-    alignSelf: 'center',
-    top: "30%",
-    borderRadius: 4,
-    marginVertical: 4,
-    alignSelf: 'center'
-  },
+  // logo: {
+  //   height: height * 0.3,
+  //   width: width * 0.3,
+  //   zIndex: 1,
+  //   position: "absolute",
+  //   alignSelf: 'center',
+  //   top: "30%",
+  //   borderRadius: 4,
+  //   marginVertical: 4,
+  //   alignSelf: 'center'
+  // },
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,
     position: 'relative',
@@ -378,12 +380,11 @@ const styles = StyleSheet.create({
     marginHorizontal: '5%'
   },
   logo: {
+    borderRadius: 40,
+    marginVertical: 4,
+    alignSelf: 'center',
     width: 280,
     height: 280,
-    zIndex: 1,
-    position: "absolute",
-    alignSelf: 'center',
-    top: "10%",
   },
   title: {
     paddingVertical: theme.SIZES.BASE,
@@ -416,5 +417,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: '6%',
     marginTop: '12%',
     marginHorizontal: '6%'
+  },
+  ImageContainer: { 
+    width: 280,
+    height: 280,
+    alignItems: "center",
+    flexWrap: 'wrap',
+    borderRadius: 4
   }
 });

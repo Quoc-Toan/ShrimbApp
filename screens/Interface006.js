@@ -87,7 +87,7 @@ export default class Onboarding extends React.Component {
       <Block flex style={styles.group}>
         <Block flex>
           <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-            <ImageBackground
+            <Image
               source={{ uri: this.state.ImageSrc }}
               style={styles.logo}
             />
@@ -171,12 +171,11 @@ const styles = StyleSheet.create({
   },
 
   logo: {
+    borderRadius: 40,
+    marginVertical: 4,
+    alignSelf: 'center',
     width: 280,
     height: 280,
-    zIndex: 1,
-    position: "absolute",
-    alignSelf: 'center',
-    top: "10%",
   },
   console: {
     paddingTop: 20,
