@@ -2,7 +2,6 @@ import React from 'react';
 import { ImageBackground, StyleSheet, StatusBar, Dimensions, View, TouchableWithoutFeedback, Image, ScrollView, Modal, Alert } from 'react-native';
 import { Block, Button, Text, theme } from 'galio-framework';
 import { LinearGradient } from 'expo-linear-gradient';
-
 const { height, width } = Dimensions.get('screen');
 
 import materialTheme from '../constants/Theme';
@@ -19,12 +18,13 @@ export default class Onboarding extends React.Component {
     this.state = {
       lng: Vn,
       modalVisible: false,
+      Id_ND: null,
       ImageSrc: null,
       sickness_name: null,
       sickness_detail: null,
       sickness_treatment: null,
       isMessageValid: true,
-
+      linkApi: "http://3.17.156.184",
       Message: ""
     }
 
@@ -64,21 +64,44 @@ export default class Onboarding extends React.Component {
   }
 
   sendMess() {
-    let { Message, lng } = this.state
+    let { Message, lng, Id_ND } = this.state
     let isMessageValid = this.validate(Message)
     this.setState({
       ...this.state,
       isMessageValid: isMessageValid
     })
+  
     if (isMessageValid) {
-      Alert.alert(
-        lng.Interface006.Label.HeoNghi,
-        lng.Interface006.Label.arigatou,
-        [
-          { text: lng.Interface006.Label.ButaNghi, onPress: () => this.setModalVisible() }
-        ],
-        { cancelable: false }
-      );
+      var body = new FormData();
+      body.append("Id_ND", Id_ND)
+      body.append("YKien", Message)
+
+      fetch(`${this.state.linkApi}/insertYKien`, {
+        method: "POST",
+        body: body,
+      }).then(res => res.json())
+        .then(res => {
+          if(res.success){
+            Alert.alert(
+              lng.Interface006.Label.HeoNghi,
+              lng.Interface006.Label.arigatou,
+              [
+                { text: lng.Interface006.Label.ButaNghi, onPress: () => this.setModalVisible() }
+              ],
+              { cancelable: false }
+            );
+          }else{
+            Alert.alert(
+              lng.Interface006.Label.HeoNghi,
+              lng.Interface006.Label.KhoiLuoiBieng,
+              [
+                { text: lng.Interface006.Label.ButaNghi, onPress: () => this.setModalVisible() }
+              ],
+              { cancelable: false }
+            );
+          }
+        })
+
     }
   }
 

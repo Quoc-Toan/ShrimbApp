@@ -2,6 +2,7 @@ import React from 'react';
 import { ImageBackground, StyleSheet, StatusBar, Dimensions, ScrollView, TouchableWithoutFeedback, Image, Modal, View, AsyncStorage } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Block, Button, Text, theme } from 'galio-framework';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 const { height, width } = Dimensions.get('screen');
 
@@ -23,32 +24,8 @@ export default class Onboarding extends React.Component {
       useCamera: false,
       photoGalaryModal: false,
       isEmailValid: true,
-      Viewed: [
-        {
-          ImageSrc: 'https://znews-photo.zadn.vn/w660/Uploaded/bpmoqwq1/2014_10_16/con_meo.jpg',
-          sickness_name: "Toàn",
-          sickness_detail: "Toàn",
-          sickness_treatment: "Toàn",
-        },
-        {
-          ImageSrc: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?fit=crop&w=240&q=80',
-          sickness_name: "Toàn",
-          sickness_detail: "Toàn",
-          sickness_treatment: "Toàn",
-        },
-        {
-          ImageSrc: 'https://images.unsplash.com/photo-1487376480913-24046456a727?fit=crop&w=240&q=80',
-          sickness_name: "Toàn",
-          sickness_detail: "Toàn",
-          sickness_treatment: "Toàn",
-        },
-        {
-          ImageSrc: 'https://images.unsplash.com/photo-1494894194458-0174142560c0?fit=crop&w=240&q=80',
-          sickness_name: "Toàn",
-          sickness_detail: "Toàn",
-          sickness_treatment: "Toàn",
-        },
-      ]
+      linkApi: "http://3.17.156.184",
+      Viewed: []
     }
 
     this.pickImage = this.pickImage.bind(this)
@@ -82,7 +59,7 @@ export default class Onboarding extends React.Component {
 
   emailOnChange(Email) {
     this.setState({
-      ...this.state, 
+      ...this.state,
       Email: Email
     })
   }
@@ -90,12 +67,45 @@ export default class Onboarding extends React.Component {
   detectImage = async () => {
     let value = await AsyncStorage.getItem("Email");
     if (value !== null) {
-      this.props.navigation.navigate("Kết quả", sicknessInfo = {
-        ImageSrc: this.state.ImageSrc,
-        sickness_name: "Toàn",
-        sickness_detail: "Toàn",
-        sickness_treatment: "Toàn",
-      })
+      const manipResult = await ImageManipulator.manipulateAsync(
+        this.state.ImageSrc,
+        [{ resize: {width: 256, height: 256} }],
+        { compress: 1, format: ImageManipulator.SaveFormat.PNG }
+      );
+
+      var item = {
+        uri: manipResult.uri,
+        type: "image/jpeg",
+        name: "image",
+      };
+
+      var body = new FormData();
+      body.append("image", item)
+      body.append("Email", value)
+
+      fetch(`${this.state.linkApi}/detect`, {
+        method: "POST",
+        body: body,
+      }).then(res => res.json())
+        .then(res => {
+          let item = {
+            Id_ND: res.Id_ND,
+            ImageSrc: `${this.state.linkApi}/loadImage?ImageName=${res.ImgName}`,
+            sickness_name: res.Ten_B,
+            sickness_detail: res.ThongTin_B,
+            sickness_treatment: res.CachChuaTri
+          }
+
+          let { Viewed } = this.state
+          Viewed.push(item)
+
+          this.setState({
+            ...this.state,
+            Viewed: Viewed
+          })
+
+          this.props.navigation.navigate("Kết quả", item)
+        })
     } else {
       this.setModalVisible()
     }
@@ -108,11 +118,12 @@ export default class Onboarding extends React.Component {
       ...this.state,
       isEmailValid: isEmailValid
     })
-    if(isEmailValid) {
+    if (isEmailValid) {
       await AsyncStorage.setItem("Email", Email).then(() => {
         this.detectImage()
       })
     }
+
   }
 
   pickImage = async () => {
@@ -156,8 +167,8 @@ export default class Onboarding extends React.Component {
                   style={styles.logo} /> :
                 <Image
                   source={Images.White}
-                  style={styles.logo} 
-                  resizeMode={"cover"}/>
+                  style={styles.logo}
+                  resizeMode={"cover"} />
             }
           </Block>
         </Block>
@@ -313,17 +324,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "black"
   },
-  // logo: {
-  //   height: height * 0.3,
-  //   width: width * 0.3,
-  //   zIndex: 1,
-  //   position: "absolute",
-  //   alignSelf: 'center',
-  //   top: "30%",
-  //   borderRadius: 4,
-  //   marginVertical: 4,
-  //   alignSelf: 'center'
-  // },
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,
     position: 'relative',
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
     marginTop: '12%',
     marginHorizontal: '6%'
   },
-  ImageContainer: { 
+  ImageContainer: {
     width: 280,
     height: 280,
     alignItems: "center",

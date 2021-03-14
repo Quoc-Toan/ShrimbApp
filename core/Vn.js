@@ -37,7 +37,8 @@ export default {
             "recomment": "Ý KIẾN",
             "arigatou" : "Cảm ơn đóng góp của bạn !",
             "HeoNghi" : "Thông báo",
-            "ButaNghi" : "Đồng Ý"
+            "ButaNghi" : "Đồng Ý",
+            "KhoiLuoiBieng" : "Đã có lỗi xảy ra"
         }
     },
 
