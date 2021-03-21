@@ -37,6 +37,7 @@ export default class Interface005 extends React.Component {
               onChangeText={text => this.props.emailOnChange(text)}
             // onFocus={() => navigation.navigate('Pro')}
             />
+            {!this.props.isEmailValid ? <Text muted color="red">{lng.Interface005.Label.error_message}</Text> : <Text></Text>}
 
             <Block style={styles.btBlock} fontSize={15}>
                 <Button

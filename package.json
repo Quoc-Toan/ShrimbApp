@@ -24,22 +24,24 @@
     "expo-asset": "~8.2.0",
     "expo-camera": "^9.1.1",
     "expo-font": "~8.3.0",
+    "expo-image-manipulator": "^8.3.0",
     "expo-image-picker": "^9.1.1",
     "expo-linear-gradient": "~8.3.0",
     "galio-framework": "~0.7.1",
+    "json-server": "^0.16.3",
     "link": "^0.1.5",
     "react": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-modal-dropdown": "git+https://github.com/siemiatj/react-native-modal-dropdown.git",
     "react-native-reanimated": "~1.13.0",
+    "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1"
   },
   "devDependencies": {
     "babel-preset-expo": "^8.3.0",
     "cross-env": "~7.0.0",
-    "expo-cli": "~3.11.7",
     "jest-expo": "^39.0.0"
   },
   "bugs": {

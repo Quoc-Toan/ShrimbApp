@@ -1,16 +1,15 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, StatusBar, Dimensions, View, ScrollView, Modal } from 'react-native';
+import { ImageBackground, StyleSheet, StatusBar, Dimensions, View, TouchableWithoutFeedback, Image, ScrollView, Modal, Alert } from 'react-native';
 import { Block, Button, Text, theme } from 'galio-framework';
 import { LinearGradient } from 'expo-linear-gradient';
-
 const { height, width } = Dimensions.get('screen');
 
 import materialTheme from '../constants/Theme';
 import Images from '../constants/Images';
-import { Vn } from "../core"
+import { Vn } from "../core";
 
 import Interface007 from "./Interface007";
-import { block } from 'react-native-reanimated';
+import { block, color } from 'react-native-reanimated';
 
 export default class Onboarding extends React.Component {
   constructor(props) {
@@ -19,28 +18,22 @@ export default class Onboarding extends React.Component {
     this.state = {
       lng: Vn,
       modalVisible: false,
+      Id_ND: null,
       ImageSrc: null,
       sickness_name: null,
       sickness_detail: null,
       sickness_treatment: null,
-      Message:"",
-      Email: "",
+      isMessageValid: true,
+      linkApi: "http://18.218.167.122",
+      Message: ""
     }
 
     this.setModalVisible = this.setModalVisible.bind(this)
   }
 
-  emailOnChange(Email) {
-    this.setState({
-      ...this.state,
-      Email: Email
-    })
+  validate(Message) {
+    return Message && Message !== ""
   }
-
-  sendImage() {
-    console.log(this.state)
-  }
-
 
   componentDidMount() {
     this.convertSicknessInfo(this.props.route.params)
@@ -53,6 +46,7 @@ export default class Onboarding extends React.Component {
       sickness_name: sicknessInfo.sickness_name,
       sickness_detail: sicknessInfo.sickness_detail,
       sickness_treatment: sicknessInfo.sickness_treatment,
+      Id_ND: sicknessInfo.Id_ND
     })
   }
 
@@ -71,7 +65,45 @@ export default class Onboarding extends React.Component {
   }
 
   sendMess() {
-    console.log(this.state)
+    let { Message, lng, Id_ND } = this.state
+    let isMessageValid = this.validate(Message)
+    this.setState({
+      ...this.state,
+      isMessageValid: isMessageValid
+    })
+  
+    if (isMessageValid) {
+      var body = new FormData();
+      body.append("Id_ND", Id_ND)
+      body.append("YKien", Message)
+
+      fetch(`${this.state.linkApi}/insertYKien`, {
+        method: "POST",
+        body: body,
+      }).then(res => res.json())
+        .then(res => {
+          if(res.success){
+            Alert.alert(
+              lng.Interface006.Label.title_alert,
+              lng.Interface006.Label.arigatou,
+              [
+                { text: lng.Interface006.Label.button_access, onPress: () => this.setModalVisible() }
+              ],
+              { cancelable: false }
+            );
+          }else{
+            Alert.alert(
+              lng.Interface006.Label.title_alert,
+              lng.Interface006.Label.error_message,
+              [
+                { text: lng.Interface006.Label.button_access, onPress: () => this.setModalVisible() }
+              ],
+              { cancelable: false }
+            );
+          }
+        })
+
+    }
   }
 
   renderCards = () => {
@@ -79,26 +111,28 @@ export default class Onboarding extends React.Component {
       <Block flex style={styles.group}>
         <Block flex>
           <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-            <ImageBackground
+            <Image
               source={{ uri: this.state.ImageSrc }}
               style={styles.logo}
             />
           </Block>
         </Block>
       </Block>
-
     )
   }
+
   renderText = lng => {
     return (
       <Block flex style={styles.group}>
         <Block style={styles.console}>
-          <Text p style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_name}</Text>
-          <Text muted>{this.state.sickness_name}</Text>
-          <Text p style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_detail}</Text>
-          <Text muted>{this.state.sickness_detail}</Text>
-          <Text p style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_treatment}</Text>
-          <Text muted>{this.state.sickness_treatment}</Text>
+          <Text h5 style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_name}</Text>
+          <Text p style={{ marginBottom: theme.SIZES.BASE, color: "gray" }}>{this.state.sickness_name}</Text>
+
+          <Text h5 style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_detail}</Text>
+          <Text p style={{ marginBottom: theme.SIZES.BASE, color: "gray" }}>{this.state.sickness_detail}</Text>
+
+          <Text h5 style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_treatment}</Text>
+          <Text p style={{ marginBottom: theme.SIZES.BASE, color: "gray" }}>{this.state.sickness_treatment}</Text>
         </Block>
         <Block >
           <Block center>
@@ -125,6 +159,11 @@ export default class Onboarding extends React.Component {
           source={Images.Background}
           style={{ width: width, height: height, zIndex: 1 }}
         >
+          <TouchableWithoutFeedback onPress={() => navigation.navigate('Nhận diện')}>
+            <Block>
+              <Image source={Images.Back1} style={styles.back} />
+            </Block>
+          </TouchableWithoutFeedback>
           <Block flex center>
             {this.renderCards()}
           </Block>
@@ -142,6 +181,7 @@ export default class Onboarding extends React.Component {
           setModalVisible={this.setModalVisible}
           messageOnChange={this.messageOnChange.bind(this)}
           sendMess={this.sendMess.bind(this)}
+          isMessageValid={this.state.isMessageValid}
         />
       </Block>
     );
@@ -155,12 +195,11 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 280,
-    height: 280,
-    zIndex: 1,
-    position: "absolute",
+    borderRadius: 40,
+    marginVertical: 4,
     alignSelf: 'center',
-    top: "10%",
+    width: width/ 2 + width / 6,
+    height: height / 5 + height / 9,
   },
   console: {
     paddingTop: 20,
@@ -173,10 +212,10 @@ const styles = StyleSheet.create({
     height: 'auto',
   },
   button: {
-    width: 250,
+    width: width - width / 2,
+    height: height / 16,
     backgroundColor: '#647fc8',
     alignSelf: 'center',
-    height: 75,
     shadowColor: 'rgba(0, 0, 0, 0)',
     elevation: 10,
     shadowRadius: 10,
@@ -203,6 +242,13 @@ const styles = StyleSheet.create({
     height: height,
     width: width,
     backgroundColor: "black",
-    opacity:0.5,
+    opacity: 0.5,
+  },
+  back: {
+    height: height / 30,
+    width: width / 30,
+    paddingHorizontal: '6%',
+    marginTop: '3%',
+    marginHorizontal: '6%'
   }
 });

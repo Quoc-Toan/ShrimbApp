@@ -58,12 +58,13 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   logo: {
-    width: 280, 
-    height: 280, 
+    width: width/ 2 + width / 4,
+    height: height / 5 + height / 7,
     zIndex: 1, 
     position: "absolute",
     alignSelf: 'center',
     top: "50%",
+    
   },
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,
@@ -71,9 +72,9 @@ const styles = StyleSheet.create({
     bottom: theme.SIZES.BASE,
   },
   button: {
-    width: 250,
+    width: width - width / 2,
+    height: height / 16,
     backgroundColor: 'white',
-    height: 75,
     shadowColor: 'rgba(0, 0, 0, 0)',
     elevation: 10,
     shadowRadius: 10 ,
