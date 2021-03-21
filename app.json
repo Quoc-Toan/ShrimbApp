@@ -1,14 +1,7 @@
 {
   "expo": {
-    "name": "rn-material-kit-free",
-    "description": "React Native - Material Kit Free",
+    "name": "Shrimp Detected",
     "slug": "rn-material-kit-free",
-    "privacy": "unlisted",
-    "sdkVersion": "39.0.0",
-    "platforms": [
-      "ios",
-      "android"
-    ],
     "version": "1.7.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
@@ -24,7 +17,13 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.CTU.ShrimpDetected",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.CTU.ShrimpDetected",
+      "versionCode": 3
     }
   }
 }

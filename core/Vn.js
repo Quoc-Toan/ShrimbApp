@@ -15,7 +15,7 @@ export default {
     "Interface003": {
         "Label": {
             "detect": "NHẬN DIỆN",
-            "setphoto": "Xem Thêm Ảnh",
+            "photo_gallary": "Xem Thêm Ảnh",
         }
     },
 
@@ -25,20 +25,20 @@ export default {
             "email_placeholder": "example@gmail.com",
             "send": "GỬI",
             "cancel": "HỦY",
-            "ee": "email không tồn tại!!!"
+            "error_message": "email không tồn tại!!!"
         }
     },
 
     "Interface006": {
         "Label": {
-            "sickness_name": "Tên bệnh",
+            "sickness_name": "Tên bệnh",    
             "sickness_detail": "Thông tin bệnh",
             "sickness_treatment": "Cách chữa trị",
             "recomment": "Ý KIẾN",
             "arigatou" : "Cảm ơn đóng góp của bạn !",
-            "HeoNghi" : "Thông báo",
-            "ButaNghi" : "Đồng Ý",
-            "KhoiLuoiBieng" : "Đã có lỗi xảy ra"
+            "title_alert" : "Thông báo",
+            "button_access" : "Đồng Ý",
+            "error_message" : "Đã có lỗi xảy ra"
         }
     },
 
@@ -48,7 +48,7 @@ export default {
             "recomment_placeholder": "Ví dụ...",
             "send": "GỬI",
             "cancel": "HỦY",
-            "ee": "Vui lòng nhập ý kiến của bạn",
+            "error_message": "Vui lòng nhập ý kiến của bạn",
         }
     }
 }

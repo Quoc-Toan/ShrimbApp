@@ -24,7 +24,7 @@ export default class Onboarding extends React.Component {
       sickness_detail: null,
       sickness_treatment: null,
       isMessageValid: true,
-      linkApi: "http://3.17.156.184",
+      linkApi: "http://18.218.167.122",
       Message: ""
     }
 
@@ -46,6 +46,7 @@ export default class Onboarding extends React.Component {
       sickness_name: sicknessInfo.sickness_name,
       sickness_detail: sicknessInfo.sickness_detail,
       sickness_treatment: sicknessInfo.sickness_treatment,
+      Id_ND: sicknessInfo.Id_ND
     })
   }
 
@@ -83,19 +84,19 @@ export default class Onboarding extends React.Component {
         .then(res => {
           if(res.success){
             Alert.alert(
-              lng.Interface006.Label.HeoNghi,
+              lng.Interface006.Label.title_alert,
               lng.Interface006.Label.arigatou,
               [
-                { text: lng.Interface006.Label.ButaNghi, onPress: () => this.setModalVisible() }
+                { text: lng.Interface006.Label.button_access, onPress: () => this.setModalVisible() }
               ],
               { cancelable: false }
             );
           }else{
             Alert.alert(
-              lng.Interface006.Label.HeoNghi,
-              lng.Interface006.Label.KhoiLuoiBieng,
+              lng.Interface006.Label.title_alert,
+              lng.Interface006.Label.error_message,
               [
-                { text: lng.Interface006.Label.ButaNghi, onPress: () => this.setModalVisible() }
+                { text: lng.Interface006.Label.button_access, onPress: () => this.setModalVisible() }
               ],
               { cancelable: false }
             );
@@ -197,8 +198,8 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     marginVertical: 4,
     alignSelf: 'center',
-    width: 280,
-    height: 280,
+    width: width/ 2 + width / 6,
+    height: height / 5 + height / 9,
   },
   console: {
     paddingTop: 20,
@@ -211,10 +212,10 @@ const styles = StyleSheet.create({
     height: 'auto',
   },
   button: {
-    width: 250,
+    width: width - width / 2,
+    height: height / 16,
     backgroundColor: '#647fc8',
     alignSelf: 'center',
-    height: 75,
     shadowColor: 'rgba(0, 0, 0, 0)',
     elevation: 10,
     shadowRadius: 10,

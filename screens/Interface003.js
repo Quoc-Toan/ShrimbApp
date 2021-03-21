@@ -24,7 +24,7 @@ export default class Onboarding extends React.Component {
       useCamera: false,
       photoGalaryModal: false,
       isEmailValid: true,
-      linkApi: "http://3.17.156.184",
+      linkApi: "http://18.218.167.122",
       Viewed: []
     }
 
@@ -275,7 +275,7 @@ export default class Onboarding extends React.Component {
               {this.renderButtonDetect(lng)}
               <Block style={styles.buttonPhotoBox}>
                 <TouchableWithoutFeedback onPress={this.setphotoGalaryModal}>
-                  <Text style={styles.buttonPhoto}>{lng.Interface003.Label.setphoto}</Text>
+                  <Text style={styles.buttonPhoto}>{lng.Interface003.Label.photo_gallary}</Text>
                 </TouchableWithoutFeedback>
               </Block>
             </Block>
@@ -338,6 +338,8 @@ const styles = StyleSheet.create({
     width: width - width / 2,
     height: height / 16,
     shadowRadius: 10,
+    zIndex:1,
+    top:"70%"
   },
   buttonPhoto: {
     fontSize: theme.SIZES.BASE * 1.2,
@@ -369,11 +371,13 @@ const styles = StyleSheet.create({
     elevation: 1,
     backgroundColor: 'white',
     borderRadius: 25,
+    top: "20%",
+    zIndex:1,
   },
   icon: {
     alignSelf: 'center',
-    height: height / 18,
-    width: width / 10,
+    height: height / 20,
+    width: width / 12,
     paddingHorizontal: '20%',
     marginTop: '10%',
     marginBottom: '10%',
@@ -383,8 +387,10 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     marginVertical: 4,
     alignSelf: 'center',
-    width: 280,
-    height: 280,
+    width: width/ 2 + width / 4,
+    height: height / 5 + height / 7,
+    top: "10%",
+    zIndex:1,
   },
   title: {
     paddingVertical: theme.SIZES.BASE,

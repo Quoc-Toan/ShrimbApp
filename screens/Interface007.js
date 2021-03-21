@@ -39,7 +39,7 @@ export default class Interface007 extends React.Component {
                             onChangeText={text => this.props.messageOnChange(text)}
                         />
 
-                        {!this.props.isMessageValid ? <Text muted color="red">{lng.Interface007.Label.ee}</Text> : <Text></Text>} 
+                        {!this.props.isMessageValid ? <Text muted color="red">{lng.Interface007.Label.error_message}</Text> : <Text></Text>} 
 
                         <Block style={styles.btBlock} fontSize={15}>
                             <Button
