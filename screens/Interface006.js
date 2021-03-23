@@ -53,7 +53,8 @@ export default class Onboarding extends React.Component {
   setModalVisible = () => {
     this.setState({
       ...this.state,
-      modalVisible: !this.state.modalVisible
+      modalVisible: !this.state.modalVisible,
+      isMessageValid: true
     })
   }
 
@@ -159,7 +160,9 @@ export default class Onboarding extends React.Component {
           source={Images.Background}
           style={{ width: width, height: height, zIndex: 1 }}
         >
-          <TouchableWithoutFeedback onPress={() => navigation.navigate('Nhận diện')}>
+          <TouchableWithoutFeedback onPress={() => navigation.navigate("Nhận diện", {
+            ImageSrc: ""
+          })}>
             <Block>
               <Image source={Images.Back1} style={styles.back} />
             </Block>

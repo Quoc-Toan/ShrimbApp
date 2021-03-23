@@ -25,7 +25,8 @@ export default class Onboarding extends React.Component {
       photoGalaryModal: false,
       isEmailValid: true,
       linkApi: "http://18.218.167.122",
-      Viewed: []
+      Viewed: [],
+      isDetect: false
     }
 
     this.pickImage = this.pickImage.bind(this)
@@ -45,9 +46,18 @@ export default class Onboarding extends React.Component {
           ...this.state,
           ImageSrc: this.props.route.params.Imagesrc,
           modalVisible: false,
-          photoGalaryModal: false
+          photoGalaryModal: false,
+          useCamera: false
         })
       }
+    } else if (previousProps.route.params !== this.props.route.params && this.state.isDetect) {
+        this.setState({
+          ...this.state,
+          ImageSrc: "",
+          modalVisible: false,
+          photoGalaryModal: false,
+          isDetect: false
+        })
     }
   }
 
@@ -97,11 +107,12 @@ export default class Onboarding extends React.Component {
           }
 
           let { Viewed } = this.state
-          Viewed.push(item)
+          Viewed.unshift(item)
 
           this.setState({
             ...this.state,
-            Viewed: Viewed
+            Viewed: Viewed,
+            isDetect: true
           })
 
           this.props.navigation.navigate("Kết quả", item)
@@ -127,6 +138,7 @@ export default class Onboarding extends React.Component {
   }
 
   pickImage = async () => {
+
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -134,10 +146,15 @@ export default class Onboarding extends React.Component {
       quality: 1,
     });
 
-    this.setState({
-      ...this.state,
-      ImageSrc: result.uri
-    })
+    if(!result.cancelled){
+      this.setState({
+        ...this.state,
+        ImageSrc: result.uri
+      })
+    }
+    
+
+
   }
 
   setModalVisible = () => {
@@ -430,5 +447,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexWrap: 'wrap',
     borderRadius: 4
+  },
+  back: {
+    marginLeft: '5%',
+    marginTop: '5%',
   }
 });
