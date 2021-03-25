@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, TouchableWithoutFeedback, Image, StyleSheet, Dimensions } from "react-native";
+import { Block } from 'galio-framework';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Camera } from "expo-camera";
+import Images from '../constants/Images';
+const { height, width } = Dimensions.get('screen');
 // import * as FileSystem from "expo-file-system";
 
 // const checkAndCreateFolder = async (folder_path) => {
@@ -32,6 +35,8 @@ export default function Interface004(props) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
 
+
+
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
@@ -56,6 +61,11 @@ export default function Interface004(props) {
           this.camera = ref;
         }}
       >
+        <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Nhận diện')}>
+          <Block>
+            <Image source={Images.Cancel} style={styles.back} />
+          </Block>
+        </TouchableWithoutFeedback>
         <View
           style={{
             flex: 1,
@@ -95,7 +105,7 @@ export default function Interface004(props) {
               });
             }}
           >
-            
+
             <MaterialCommunityIcons
               name="circle-outline"
               style={{ color: "white", fontSize: 100 }}
@@ -106,3 +116,9 @@ export default function Interface004(props) {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  back: {
+    marginLeft: '5%',
+    marginTop: '5%',
+  }
+});

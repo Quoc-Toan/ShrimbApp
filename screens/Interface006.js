@@ -53,7 +53,8 @@ export default class Onboarding extends React.Component {
   setModalVisible = () => {
     this.setState({
       ...this.state,
-      modalVisible: !this.state.modalVisible
+      modalVisible: !this.state.modalVisible,
+      isMessageValid: true
     })
   }
 
@@ -126,13 +127,13 @@ export default class Onboarding extends React.Component {
       <Block flex style={styles.group}>
         <Block style={styles.console}>
           <Text h5 style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_name}</Text>
-          <Text p style={{ marginBottom: theme.SIZES.BASE, color: "gray" }}>{this.state.sickness_name}</Text>
+          <Text p style={ styles.textInput}>{this.state.sickness_name}</Text>
 
           <Text h5 style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_detail}</Text>
-          <Text p style={{ marginBottom: theme.SIZES.BASE, color: "gray" }}>{this.state.sickness_detail}</Text>
+          <Text p style={ styles.textInput}>{this.state.sickness_detail}</Text>
 
           <Text h5 style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_treatment}</Text>
-          <Text p style={{ marginBottom: theme.SIZES.BASE, color: "gray" }}>{this.state.sickness_treatment}</Text>
+          <Text p style={ {    marginBottom: theme.SIZES.BASE, color: "gray",}}>{this.state.sickness_treatment}</Text>
         </Block>
         <Block >
           <Block center>
@@ -159,7 +160,9 @@ export default class Onboarding extends React.Component {
           source={Images.Background}
           style={{ width: width, height: height, zIndex: 1 }}
         >
-          <TouchableWithoutFeedback onPress={() => navigation.navigate('Nhận diện')}>
+          <TouchableWithoutFeedback onPress={() => navigation.navigate("Nhận diện", {
+            ImageSrc: ""
+          })}>
             <Block>
               <Image source={Images.Back1} style={styles.back} />
             </Block>
@@ -250,5 +253,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: '6%',
     marginTop: '3%',
     marginHorizontal: '6%'
+  }, 
+  textInput: {
+    marginBottom: theme.SIZES.BASE, 
+    color: "gray",
+    paddingBottom: 16,
+    borderBottomColor: "#0d41d0",
+    borderBottomWidth: 2,
   }
 });
