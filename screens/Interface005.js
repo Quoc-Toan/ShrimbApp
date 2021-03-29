@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, Modal, View, ImageBackground } from 'react-native';
+import { StyleSheet, Dimensions, Modal, View, ImageBackground, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Block, Button, Text, theme, Input } from 'galio-framework';
 
 const { height, width } = Dimensions.get('screen');
@@ -25,21 +25,22 @@ export default class Interface005 extends React.Component {
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
         }}>
-        <ImageBackground source={require('..//assets/images/bgOverlay.png')} style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>{lng.Interface005.Label.input_email_tittle}</Text>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ImageBackground source={require('..//assets/images/bgOverlay.png')} style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>{lng.Interface005.Label.input_email_tittle}</Text>
 
-            <Input
-              right
-              color="black"
-              style={styles.search}
-              placeholder={lng.Interface005.Label.email_placeholder}
-              onChangeText={text => this.props.emailOnChange(text)}
-            // onFocus={() => navigation.navigate('Pro')}
-            />
-            {!this.props.isEmailValid ? <Text muted color="red">{lng.Interface005.Label.error_message}</Text> : <Text></Text>}
+              <Input
+                right
+                color="black"
+                style={styles.search}
+                placeholder={lng.Interface005.Label.email_placeholder}
+                onChangeText={text => this.props.emailOnChange(text)}
+              // onFocus={() => navigation.navigate('Pro')}
+              />
+              {!this.props.isEmailValid ? <Text muted color="red">{lng.Interface005.Label.error_message}</Text> : <Text></Text>}
 
-            <Block style={styles.btBlock} fontSize={15}>
+              <Block style={styles.btBlock} fontSize={15}>
                 <Button
                   style={styles.but}
                   onPress={() => this.props.sendImage()}>
@@ -50,9 +51,10 @@ export default class Interface005 extends React.Component {
                   onPress={() => this.props.setModalVisible()}>
                   {lng.Interface005.Label.cancel}
                 </Button>
-            </Block>
-          </View>
-        </ImageBackground>
+              </Block>
+            </View>
+          </ImageBackground>
+        </TouchableWithoutFeedback>
       </Modal>
     )
   }
@@ -93,15 +95,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   but: {
-    width: width - width/2,
-    height: height/22,
+    width: width - width / 2,
+    height: height / 22,
     backgroundColor: '#2196F3',
     shadowOpacity: 0,
     fontSize: 5,
     fontWeight: "bold",
   },
   search: {
-    height: height/15,
+    height: height / 15,
   },
   btBlock: {
     justifyContent: 'center',

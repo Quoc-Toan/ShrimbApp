@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, Modal, View, ImageBackground } from 'react-native';
+import { StyleSheet, Dimensions, Modal, View, ImageBackground, Keyboard, TouchableNativeFeedback } from 'react-native';
 import { Block, Button, Text, theme, Input } from 'galio-framework';
 
 const { height, width } = Dimensions.get('screen');
@@ -24,37 +24,39 @@ export default class Interface007 extends React.Component {
                 onRequestClose={() => {
                     Alert.alert('Modal has been closed.');
                 }}>
-                <ImageBackground source={require('..//assets/images/bgOverlay.png')} style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>{lng.Interface007.Label.recomment_tittle}</Text>
-                        
-                        <Input
-                            style={styles.textArea}
-                            underlineColorAndroid="transparent"
-                            color="black"
-                            placeholder={lng.Interface007.Label.recomment_placeholder}
-                            placeholderTextColor="grey"
-                            numberOfLines={10}
-                            multiline={true}
-                            onChangeText={text => this.props.messageOnChange(text)}
-                        />
+                <TouchableNativeFeedback onPress={Keyboard.dismiss}>
+                    <ImageBackground source={require('..//assets/images/bgOverlay.png')} style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.modalText}>{lng.Interface007.Label.recomment_tittle}</Text>
 
-                        {!this.props.isMessageValid ? <Text muted color="red">{lng.Interface007.Label.error_message}</Text> : <Text></Text>} 
+                            <Input
+                                style={styles.textArea}
+                                underlineColorAndroid="transparent"
+                                color="black"
+                                placeholder={lng.Interface007.Label.recomment_placeholder}
+                                placeholderTextColor="grey"
+                                numberOfLines={10}
+                                multiline={true}
+                                onChangeText={text => this.props.messageOnChange(text)}
+                            />
 
-                        <Block style={styles.btBlock} fontSize={15}>
-                            <Button
-                                style={styles.but}
-                                onPress={() => this.props.sendMess()}>
-                                {lng.Interface007.Label.send}
-                            </Button>
-                            <Button
-                                style={styles.but}
-                                onPress={() => this.props.setModalVisible()}>
-                                {lng.Interface007.Label.cancel}
-                            </Button>
-                        </Block>
-                    </View>
-                </ImageBackground>
+                            {!this.props.isMessageValid ? <Text muted color="red">{lng.Interface007.Label.error_message}</Text> : <Text></Text>}
+
+                            <Block style={styles.btBlock} fontSize={15}>
+                                <Button
+                                    style={styles.but}
+                                    onPress={() => this.props.sendMess()}>
+                                    {lng.Interface007.Label.send}
+                                </Button>
+                                <Button
+                                    style={styles.but}
+                                    onPress={() => this.props.setModalVisible()}>
+                                    {lng.Interface007.Label.cancel}
+                                </Button>
+                            </Block>
+                        </View>
+                    </ImageBackground>
+                </TouchableNativeFeedback>
             </Modal>
         )
     }
