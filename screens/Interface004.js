@@ -118,7 +118,7 @@ export default function Interface004(props) {
 }
 const styles = StyleSheet.create({
   back: {
-    marginLeft: '5%',
-    marginTop: '5%',
+    marginLeft: '10%',
+    marginTop: '10%',
   }
 });
