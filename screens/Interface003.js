@@ -160,7 +160,8 @@ export default class Onboarding extends React.Component {
   setModalVisible = () => {
     this.setState({
       ...this.state,
-      modalVisible: !this.state.modalVisible
+      modalVisible: !this.state.modalVisible,
+      isEmailValid: true,
     })
   }
 
