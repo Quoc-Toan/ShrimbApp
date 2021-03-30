@@ -50,7 +50,7 @@ export default class Onboarding extends React.Component {
           useCamera: false
         })
       }
-    } else if (previousProps.route.params !== this.props.route.params && this.state.isDetect) {
+    } else if (this.props.route.params && this.props.route.params.from006 && this.state.isDetect) {
         this.setState({
           ...this.state,
           ImageSrc: "",

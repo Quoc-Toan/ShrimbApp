@@ -161,7 +161,7 @@ export default class Onboarding extends React.Component {
           style={{ width: width, height: height, zIndex: 1 }}
         >
           <TouchableWithoutFeedback onPress={() => navigation.navigate("Nhận diện", {
-            ImageSrc: ""
+            from006: true
           })}>
             <Block>
               <Image source={Images.Back1} style={styles.back} />
@@ -249,9 +249,9 @@ const styles = StyleSheet.create({
   },
   back: {
     height: height / 30,
-    width: width / 30,
+    width: height / 30,
     paddingHorizontal: '6%',
-    marginTop: '3%',
+    marginTop: '8%',
     marginHorizontal: '6%'
   }, 
   textInput: {
