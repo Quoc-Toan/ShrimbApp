@@ -132,10 +132,9 @@ export default class Onboarding extends React.Component {
 
           <Text h5 style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_detail}</Text>
           {this.state.sickness_detail ?(
-          <Text p style={ styles.textInput}>
           <HTML source={{ html: this.state.sickness_detail }}/>
-          </Text>
           ):<Text></Text>}
+          <Text p style={ styles.textInput}></Text>
           
           
 
