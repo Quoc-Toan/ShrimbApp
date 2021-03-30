@@ -10,6 +10,7 @@ import { Vn } from "../core";
 
 import Interface007 from "./Interface007";
 import { block, color } from 'react-native-reanimated';
+import HTML from "react-native-render-html";
 
 export default class Onboarding extends React.Component {
   constructor(props) {
@@ -130,10 +131,20 @@ export default class Onboarding extends React.Component {
           <Text p style={ styles.textInput}>{this.state.sickness_name}</Text>
 
           <Text h5 style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_detail}</Text>
-          <Text p style={ styles.textInput}>{this.state.sickness_detail}</Text>
+          {this.state.sickness_detail ?(
+          <Text p style={ styles.textInput}>
+          <HTML source={{ html: this.state.sickness_detail }}/>
+          </Text>
+          ):<Text></Text>}
+          
+          
 
           <Text h5 style={{ marginBottom: theme.SIZES.BASE / 2 }}>{lng.Interface006.Label.sickness_treatment}</Text>
-          <Text p style={ {    marginBottom: theme.SIZES.BASE, color: "gray",}}>{this.state.sickness_treatment}</Text>
+          {this.state.sickness_treatment ?(
+            <HTML source={{ html: this.state.sickness_treatment }}/>
+          ):
+          <Text></Text>
+          }
         </Block>
         <Block >
           <Block center>
