@@ -16,6 +16,9 @@ export default {
         "Label": {
             "detect": "NHẬN DIỆN",
             "photo_gallary": "Xem Thêm Ảnh",
+            "error_message" : "không nhận diện được, vui lòng sử dụng ảnh rõ hơn",
+            "title_alert" : "Thông báo",
+            "button_access" : "Đồng Ý"
         }
     },
 

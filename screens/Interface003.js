@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, StatusBar, Dimensions, ScrollView, TouchableWithoutFeedback, Image, Modal, View, AsyncStorage } from 'react-native';
+import { ImageBackground, StyleSheet, StatusBar, Dimensions, ScrollView, TouchableWithoutFeedback, Image, Modal, View, AsyncStorage, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Block, Button, Text, theme } from 'galio-framework';
 import * as ImageManipulator from 'expo-image-manipulator';
@@ -75,6 +75,7 @@ export default class Onboarding extends React.Component {
   }
 
   detectImage = async () => {
+    let { Message, lng } = this.state
     let value = await AsyncStorage.getItem("Email");
     if (value !== null) {
       const manipResult = await ImageManipulator.manipulateAsync(
@@ -98,24 +99,35 @@ export default class Onboarding extends React.Component {
         body: body,
       }).then(res => res.json())
         .then(res => {
-          let item = {
-            Id_ND: res.Id_ND,
-            ImageSrc: `${this.state.linkApi}/loadImage?ImageName=${res.ImgName}`,
-            sickness_name: res.Ten_B,
-            sickness_detail: res.ThongTin_B,
-            sickness_treatment: res.CachChuaTri
+          if(res.success){
+            let item = {
+              Id_ND: res.Id_ND,
+              ImageSrc: `${this.state.linkApi}/loadImage?ImageName=${res.ImgName}`,
+              sickness_name: res.Ten_B,
+              sickness_detail: res.ThongTin_B,
+              sickness_treatment: res.CachChuaTri
+            }
+            let { Viewed } = this.state
+            Viewed.unshift(item)
+  
+            this.setState({
+              ...this.state,
+              Viewed: Viewed,
+              isDetect: true
+            })
+  
+            this.props.navigation.navigate("Kết quả", item)
           }
-
-          let { Viewed } = this.state
-          Viewed.unshift(item)
-
-          this.setState({
-            ...this.state,
-            Viewed: Viewed,
-            isDetect: true
-          })
-
-          this.props.navigation.navigate("Kết quả", item)
+          else{
+            Alert.alert(
+              lng.Interface003.Label.title_alert,
+              lng.Interface003.Label.error_message,
+              [
+                { text: lng.Interface003.Label.button_access, onPress: () => this.setModalVisible() }
+              ],
+              { cancelable: false }
+            );
+          }
         })
     } else {
       this.setModalVisible()
@@ -315,7 +327,7 @@ export default class Onboarding extends React.Component {
             <StatusBar barStyle="light-content" />
             <ImageBackground
               source={require('..//assets/images/bgOverlay.png')}
-              style={{ width: width, height: height, zIndex: 1 }}
+              style={styles.backgroundAlbum}
             >
               <TouchableWithoutFeedback onPress={() => this.setphotoGalaryModal()}>
                 <Block>
@@ -325,8 +337,9 @@ export default class Onboarding extends React.Component {
 
               <ScrollView
                 showsVerticalScrollIndicator={false}
-                style={{ height: height / 4 }}>
-                <Block flex space="around" style={styles.padded}>
+                propagateSwipe={true}
+                style={{ height: height }}>
+                <Block flex space="around" style={styles.st}>
                   {this.renderAlbum()}
                 </Block>
               </ScrollView>
@@ -347,6 +360,17 @@ const styles = StyleSheet.create({
     position: 'relative',
     bottom: theme.SIZES.BASE,
     height: height / 2
+  },
+  st:{
+    paddingHorizontal: theme.SIZES.BASE * 2,
+    position: 'relative',
+    bottom: theme.SIZES.BASE,
+    height: height
+  },
+  backgroundAlbum:{ 
+    width: Dimensions.get("window").width, //for full screen
+    height: Dimensions.get("window").height, //for full screen
+    zIndex: 1 
   },
   button: {
     backgroundColor: 'white',
@@ -432,7 +456,7 @@ const styles = StyleSheet.create({
     height: thumbMeasure,
   },
   album: {
-    height: height,
+    height: 2* height,
     width: width
   },
   back: {

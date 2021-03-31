@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     zIndex: 1, 
     position: "absolute",
     alignSelf: 'center',
-    top: "50%",
+    top: "40%",
     
   },
   padded: {
