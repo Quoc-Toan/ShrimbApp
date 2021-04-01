@@ -182,7 +182,7 @@ export default class Onboarding extends React.Component {
           </Block>
           <ScrollView
             showsVerticalScrollIndicator={false}
-            style={{ height: height / 4 }}>
+            style={{ height: "55%", width: "100%" , position: "absolute", bottom: 0}}>
             <Block flex space="around" style={styles.padded}>
               {this.renderText(lng)}
               {/* {this.renderButtons()} */}
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     marginVertical: 4,
     alignSelf: 'center',
-    width: width/ 2 + width / 6,
+    width: height / 5 + height / 9,
     height: height / 5 + height / 9,
   },
   console: {

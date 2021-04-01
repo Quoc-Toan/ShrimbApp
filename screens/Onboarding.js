@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: width/ 2 + width / 4,
-    height: height / 5 + height / 7,
+    height: width/ 2 + width / 4,
     zIndex: 1, 
     position: "absolute",
     alignSelf: 'center',

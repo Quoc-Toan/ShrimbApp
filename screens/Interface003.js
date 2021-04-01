@@ -365,7 +365,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.SIZES.BASE * 2,
     position: 'relative',
     bottom: theme.SIZES.BASE,
-    height: height
   },
   backgroundAlbum:{ 
     width: Dimensions.get("window").width, //for full screen
@@ -429,7 +428,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     marginVertical: 4,
     alignSelf: 'center',
-    width: width/ 2 + width / 4,
+    width: height / 5 + height / 7,
     height: height / 5 + height / 7,
     top: "10%",
     zIndex:1,
