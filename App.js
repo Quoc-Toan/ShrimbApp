@@ -17,7 +17,7 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import { Block, GalioProvider } from 'galio-framework';
 
-import { Images, products, materialTheme } from './constants/';
+import { Images, materialTheme } from './constants/';
 
 import { NavigationContainer } from '@react-navigation/native';
 import Screens from './navigation/Screens';
@@ -28,14 +28,8 @@ enableScreens();
 
 // cache app images
 const assetImages = [
-  Images.Pro,
-  Images.Profile,
-  Images.Avatar,
-  Images.Onboarding,
+  Images.Background1
 ];
-
-// cache product images
-products.map(product => assetImages.push(product.image));
 
 function cacheImages(images) {
   return images.map(image => {

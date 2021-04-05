@@ -7,8 +7,6 @@ import Interface003 from "../screens/Interface003";
 import Interface006 from "../screens/Interface006";
 import Interface004 from "../screens/Interface004";
 
-import { Header } from '../components';
-
 const { width } = Dimensions.get("screen");
 
 const Stack = createStackNavigator();

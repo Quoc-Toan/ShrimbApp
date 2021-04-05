@@ -466,8 +466,8 @@ const styles = StyleSheet.create({
     marginHorizontal: '6%'
   },
   ImageContainer: {
-    width: 280,
-    height: 280,
+    width: '100%',
+    height: "40%",
     alignItems: "center",
     flexWrap: 'wrap',
     borderRadius: 4
